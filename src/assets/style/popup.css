@@ -1,0 +1,31 @@
+/deep/ .modal-content{
+    background-color: #393e46;
+    border-radius: 20px!important;
+}
+/deep/ .modal-title{
+    margin: auto;
+    font-size: 30px;
+    color: white;
+
+}
+/deep/ .modal-header{
+    padding: 0.3em 1em;
+}
+label{
+    color: #eee;
+    margin:auto;
+}
+/deep/ .modal-header .close{
+    margin: 0;
+}
+
+
+input[type='text'], input[type='file'], input[type='textarea']{
+    border: 0;
+    background-color: white;
+    color: #222831;
+    padding: 10px 10px;
+}
+
+
+
