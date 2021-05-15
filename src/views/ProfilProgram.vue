@@ -54,7 +54,7 @@
                                                 <strong>Program Info</strong></h6>
                                         </b-card-header>
                                         <b-collapse id="info" accordion="my-accordion" role="tabpanel">
-                                            <b-card-body>
+                                            <b-card-body v-if="program.description">
                                                 <b-card-text v-html="JSON.parse(program.description).info">
                                                    {{JSON.parse(program.description).info}}
 <!--                                                    <ul class="m-4">-->
@@ -145,16 +145,23 @@
                                 <template v-slot:title>
                                     <span class=" d-sm-inline-block ">Submissions</span>
                                 </template>
-                                <div class="row m-0 p-1 prio" v-for="data of reports" :key="data.id">
-                                <div class="col-xl-2 m-auto">
-                                    <b-avatar  size="lg" :src="data.user.avatar" :title="data.user.username"></b-avatar>
-                                </div>
-                                <div class="col-xl-10">
+                                <div class=" row m-0 p-1 prio" v-for="data of reports" :key="data.id">
 
-                                    <b-badge class="float-right p-1" role="button"  @click="$router.push({name:'ProgramReports',params:{id:program.id}})" pill variant="info">view report</b-badge>
-                                    <h5 class="card-title " >{{data.title}}</h5>
-                                    <h6 class="mb-1" v-if="data.vuln_id"><span class="address">@{{data.user_address}}</span> report the {{data.vuln.name}}</h6>
-                                    <h6 class="mb-1" v-else><span class="address">@{{data.user_address}}</span> report the {{data.vuln_name}}</h6>
+
+
+                                <div class="col-xl-5  border-right m-auto">
+                                    <b-avatar  size="lg" class="mr-2" :src="data.user.avatar" :title="data.user_address"></b-avatar>
+                                    <span class="address">@{{data.user.username}}</span>
+                                </div>
+                                <div class="col-xl-7 m-auto">
+                                    <div class="float-right">
+                                        <b-badge class="p-1" pill variant="info">{{data.status}}</b-badge>
+                                        <i class="flaticon-skull link mt-2 text-white ml-2" @click="$router.push({name:'ProgramReports',params:{id:program.id}})" title="view report"></i>
+                                    </div>
+                                    <h6 class="mt-1 link"  @click="$router.push({name:'ProgramReports',params:{id:program.id}})" >{{data.title}}</h6>
+                                    <h6 v-if="data.vuln_id" >{{data.vuln.name}}</h6>
+                                    <h6  v-else>{{data.vuln_name}}</h6>
+                                    <p>{{new Date(data.created_at).toLocaleString()}}</p>
                                 </div>
                                 </div>
 
@@ -220,7 +227,7 @@
                 this.$http
                     .get('programs/'+this.$route.params.id)
                     .then(response => {
-                        console.log(response.data)
+
                         this.program = response.data;
 
                     })
@@ -232,7 +239,7 @@
                 this.$http
                     .get('programs/'+this.$route.params.id+'/users')
                     .then(response => {
-                        console.log(response.data)
+
                         this.users = response.data;
 
                     })
@@ -244,7 +251,7 @@
                 this.$http
                     .get('programs/'+this.$route.params.id+'/reports')
                     .then(response => {
-                        console.log(response.data)
+
                         this.reports = response.data;
 
                     })
@@ -309,6 +316,12 @@
     }
     table td{
         color: white;
+    }
+    .link{
+        cursor: pointer;
+    }
+    .link:hover{
+        color: #0EC9AC;
     }
 
 </style>

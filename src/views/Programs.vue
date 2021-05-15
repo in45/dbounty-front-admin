@@ -60,6 +60,7 @@
                                     <h6 class="mb-2"><span class="text-info">Finish At :</span> {{data.finish_at}}</h6>
                                     <p>{{JSON.parse(data.description).info}}</p>
                                     <b-badge class="float-right p-1" role="button"  @click="$router.push({name:'ProfilProgram',params:{id:data.id}})" pill variant="info">view more</b-badge>
+                                    <b-badge class="float-right p-1" role="button"  @click="$router.push({name:'ProfilProgram',params:{id:data.id}})" pill variant="info">view more</b-badge>
 
                                 </div>
                             </div>
