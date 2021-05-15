@@ -6,42 +6,41 @@
                 <template v-slot:title>
                     <span class="d-sm-inline-block font-weight-bold text-muted">Alpha Code</span>
                 </template>
-                <form >
+
                     <div class="form-group mt-3 mb-0">
                         <b-form-input  type="text" v-model="item.alpha_code"  disabled></b-form-input>
                     </div>
 
                     <div class="row pt-3 m-auto">
                         <div class="col-xl-4 m-auto">
-                            <input type="submit"  class="btn btn-primary btn-block"  value="Generate" @click="Generate('alpha_code')"/>
+                            <input type="button"  class="btn btn-primary btn-block"  value="Generate" @click="Generate('alpha_code')"/>
                         </div>
                         <div class="col-xl-3 m-auto">
                             <input type="button"  class="btn btn-primary btn-block" @click="hideModal"  value="Cancel" />
                         </div>
 
                     </div>
-                </form>
 
             </b-tab>
             <b-tab>
                 <template v-slot:title>
                     <span class="d-sm-inline-block font-weight-bold text-muted">Beta Code</span>
                 </template>
-                <form >
+
                     <div class="form-group mt-3 mb-0">
                         <b-form-input  type="text" v-model="item.beta_code"  disabled></b-form-input>
                     </div>
 
                     <div class="row pt-3 m-auto">
                         <div class="col-xl-3 m-auto">
-                            <input type="submit"  class="btn btn-primary btn-block"  value="Generate" @click="Generate('beta_code')"/>
+                            <input type="button"  class="btn btn-primary btn-block"  value="Generate" @click="Generate('beta_code')"/>
                         </div>
                         <div class="col-xl-3 m-auto">
                             <input type="button"  class="btn btn-primary btn-block" @click="hideModal"  value="Cancel" />
                         </div>
 
                     </div>
-                </form>
+
             </b-tab>
 
         </b-tabs>
@@ -64,11 +63,12 @@
             },
 
             hideModal() {
+                this.item={}
                 this.$refs['modal'].hide()
             },
             loadCompanyCode(){
                 this.$http
-                    .get('companies/'+this.id)
+                    .get('companies/'+this.id+'/code')
                     .then(response => {
                         console.log(response.data)
                         this.item = response.data;
@@ -83,8 +83,7 @@
                 this.$http
                     .post('companies/'+this.id+'/code',{'type':type})
                     .then(response => {
-                        console.log(response.data)
-                        this.hideModal()
+                        this.item = response.data
                     })
                     .catch(error => {
                         console.log(error)

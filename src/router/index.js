@@ -42,9 +42,9 @@ const routes = [
                 component: () => import(/* webpackChunkName: "Reports" */ '../views/Reports')
             },
             {
-                path: '/reports/:id',
-                name: 'ProfilReport',
-                component: () => import(/* webpackChunkName: "ProfilReport" */ '../views/ProfilProgram')
+                path: '/programs/:id/reports',
+                name: 'ProgramReports',
+                component: () => import(/* webpackChunkName: "ProgramReports" */ '../views/ProgramReports')
             },
             {
                 path: '/companies',

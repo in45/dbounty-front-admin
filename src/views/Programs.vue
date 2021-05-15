@@ -14,39 +14,52 @@
                     <h2 class="mb-4">Programs</h2>
 
                     <div id="aspect-content">
-            <div class="aspect-tab prio ">
-                <input id="item-18" type="checkbox" class="aspect-input" name="aspect">
-                <label for="item-18" class="aspect-label"></label>
+            <div class="aspect-tab prio "  v-for="data of programs" :key="data.id">
+                <input :id="data.id" type="checkbox" class="aspect-input" name="aspect">
+                <label :for="data.id" class="aspect-label"></label>
                 <div class="aspect-content">
-                    <div class="aspect-info">
+                    <div class="col-xl-6">
                         <b-avatar class="mr-2"></b-avatar>
-                        <span class="aspect-name mr-2">Lorem ipsum</span>
-                        <b-badge pill variant="info">Status</b-badge>
+                        <span class="aspect-name mr-2">  {{data.name}}</span>
+                        <b-badge pill variant="info">{{data.status}}</b-badge>
                     </div>
-                    <div class="aspect-stat">
-                            <span class="positive-count"><i class="flaticon-bug text-primary mr-2" title="bugs"></i>4</span>
-                            <span class="neutral-count"><i class="flaticon-skull  text-primary mr-2" title="reports"></i>13</span>
-                            <span class="negative-count"><i class="flaticon-hacker-2 text-primary mr-2" title="hunters"></i>130</span>
+                    <div class="col-xl-6 m-auto text-right">
+                        <ul class="row  list-inline my-0 p-0">
+                            <li class="col-3 p-0 ">
+                                <i class="flaticon-bug text-primary mr-2" title="type"></i>{{data.reports_count}}
+                            </li>
+                            <li class="col-3 p-0 ">
+                                <i class="flaticon-cyber-security-2 text-primary mr-2" title="type"></i>{{data.type}}
+                            </li>
+                            <li class="col-3 p-0 ">
+                                <i class="flaticon-skull  text-primary mr-2" title="reports"></i>{{data.reports_count}}
+                            </li>
+                            <li class="col-3 p-0 ">
+                                <i class="flaticon-hacker-2 text-primary mr-2" title="hunters"></i>{{data.users_count}}
+                            </li>
+
+
+                        </ul>
                     </div>
                 </div>
-                <div class="aspect-tab-content">
-                    <div class="row">
-                        <div class="col-xl-4">
+                <div class="aspect-tab-content ">
+                    <div class="row m-0 py-2">
+                        <div class="col-xl-5">
                             <div class="card">
                                 <div class=" mb-0 card-title">
                                     <div class="row m-0">
                                     <h5 class="col-7 pt-3 pl-3">Info</h5>
-                                    <b-form-select class="col-5"  v-model="val" :options="status" size="sm"></b-form-select>
+                                    <b-form-select class="col-5"  v-model="data.status" :options="status" size="sm"></b-form-select>
+
                                 </div>
                                 </div>
 
                                 <div class="card-body">
-                                    <ul>
-                                        <li>Company Name : AAAA</li>
-                                        <li>Begin At : AAAA</li>
-                                        <li>Finish At : AAAA</li>
-                                    </ul>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</p>
+                                    <h6 class="mb-2"><b-avatar :src="data.company.logo" class="mr-2" alt="Company"></b-avatar> {{data.company.name}}</h6>
+                                    <h6 class="mb-2"><span class="text-info">Begin At :</span> {{data.begin_at}}</h6>
+                                    <h6 class="mb-2"><span class="text-info">Finish At :</span> {{data.finish_at}}</h6>
+                                    <p>{{JSON.parse(data.description).info}}</p>
+                                    <b-badge class="float-right p-1" role="button"  @click="$router.push({name:'ProfilProgram',params:{id:data.id}})" pill variant="info">view more</b-badge>
 
                                 </div>
                             </div>
@@ -54,43 +67,39 @@
                         <div class="col-xl-4">
                             <div class="card">
                                 <h5 class="card-title mb-0 pt-3 pl-3">Scopes</h5>
-                                <div class="card-body">
-                                    <ul>
-                                        <li>www.site.com</li>
-                                        <li>www.site.com</li>
-                                        <li>www.site.com</li>
-                                        <li>www.site.com</li>
-                                        <li>www.site.com</li>
-
-                                    </ul>
-
+                                <div class="card-body" v-html="data.scopes">
+                                    {{data.scopes}}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-xl-4">
+                        <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-title">
-                                    <span class="float-right">1389 - 1234 <i class="flaticon-ethereum-2 text-primary ml-1" style="font-size: 18px" title="bounty"></i></span>
+                                    <span class="float-right">{{data.min_bounty+ ' - '+ data.max_bounty}} <i class="flaticon-ethereum-2 text-primary ml-1" style="font-size: 18px" title="bounty"></i></span>
                                     <h5 class=" mb-0 pt-3 pl-3">Rewards </h5>
                                 </div>
                                     <div class="card-body">
                                     <div class="row m-0">
-                                        <span class="col-3">P1</span>
-                                        <p class="col-6 text-center prio" >1244 - 1344</p>
+                                        <span class="col-4">P1</span>
+                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p1}}</p>
                                     </div>
                                     <div class="row m-0">
-                                        <span class="col-3">P2</span>
-                                        <p class="col-6 text-center prio" >1244 - 1344</p>
+                                        <span class="col-4">P2</span>
+                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p2}}</p>
                                     </div>
                                     <div class="row m-0">
-                                        <span class="col-3">P3</span>
-                                        <p class="col-6 text-center prio" >1244 - 1344</p>
+                                        <span class="col-4">P3</span>
+                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p3}}</p>
                                     </div>
                                     <div class="row m-0">
-                                        <span class="col-3">P4</span>
-                                        <p class="col-6 text-center prio" >1244 - 1344</p>
+                                        <span class="col-4">P4</span>
+                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p4}}</p>
                                     </div>
+                                    <div class="row m-0">
+                                            <span class="col-4">P5</span>
+                                            <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p5}}</p>
+                                     </div>
                                 </div>
                             </div>
                         </div>

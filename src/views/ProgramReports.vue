@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "ProfilReport"
+        name: "ProgramReports"
     }
 </script>
 

@@ -54,7 +54,7 @@
         <new-company v-on:refresh-add="loadCompanies(1)"/>
         <edit-company :companie="company" v-on:refresh-edit="refresh_edit"/>
         <delete-confirmation :id="selectedId" type="companies/" v-on:refresh="refresh_delete"/>
-        <company-code :id="selectedId" v-on:refresh="refresh_delete"/>
+        <company-code :id="selectedId" />
     </main>
 </template>
 
