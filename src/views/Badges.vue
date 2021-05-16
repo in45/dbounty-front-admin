@@ -24,7 +24,7 @@
                                 <b-avatar :src="data.avatar" :alt="data.title"></b-avatar>
                             </td>
                             <td data-label="Title "> {{data.title}}</td>
-                            <td data-label="Description"> <p class="m-0" style="border-radius: 4px;border: 1px solid #32394e;">{{data.description}}</p></td>
+                            <td data-label="Description"> <p class="m-0 p-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.description}}</p></td>
                             <td data-label="Tokens" >{{data.tokens}}</td>
                             <td data-label="Actions">
                                 <ul class="list-inline m-auto">

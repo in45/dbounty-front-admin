@@ -104,7 +104,7 @@
                        <div class="col-xl-6">
                            <div class="card">
                                <div class="card-body">
-                                   <h4 class="card-title mb-4">Categorys</h4>
+                                   <h4 class="card-title mb-4">Reports</h4>
                                    <!-- Pie Chart -->
                                    <apexchart
                                            class="apex-charts"
@@ -327,10 +327,10 @@
                     }
                 },
                 pieChart : {
-                    series: [44, 55, 41],
+                    series: [44, 55, 41,60,21,16,7,33],
                     chartOptions: {
-                        labels: ["Adventure", "Racing", "Sport"],
-                        colors: ["#34c38f", "#556ee6", "#f46a6a"],
+                        labels: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable'],
+                        colors: ["#34c38f", "#556ee6", "#f46a6a","#2A2E51","#FFFF99","#ff00ff","#FFFF99","#80b1ff"],
                         legend: {
                             show: true,
                             position: 'bottom',
@@ -366,4 +366,6 @@
     }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

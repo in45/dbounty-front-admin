@@ -11,7 +11,7 @@
                             <b-form-select :options="dates" size="sm"></b-form-select>
                         </div>
                     </div>
-                    <simplebar style="max-height: 450px;padding-right: 12px;padding-left: 12px;">
+                    <simplebar style="max-height: 600px;padding-right: 12px;padding-left: 12px;">
                     <div class="card report  mb-3"  :class=" {'selected': selected_report.id == data.id}" v-for="data in reports" v-bind:key="data.id" @click="selected_report = data">
                         <div class="card-body ">
                             <h6 class="link  font-size-13 link">{{data.title}}</h6>
@@ -24,7 +24,7 @@
                     </simplebar>
                 </div>
                 <div class="col-xl-8 py-2">
-                    <div class="card ">
+                    <div class="card " style="height: 100%">
                         <div class="card-header">
                             <div class="row m-0">
                                 <div class="col-xl-4  border-right m-auto">

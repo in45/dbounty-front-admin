@@ -13,10 +13,10 @@
                                     <vue-fontawesome v-b-modal.company-code icon="lock" size="1" color="black" title="code"></vue-fontawesome>
                                 </div>
                             </div>
-                                <div class="mb-1"><i class="fa fa-globe mr-3"></i>{{company.website}}</div>
-                                <div class="mb-1"><i class="fa fa-at mr-3"></i>{{company.email}}</div>
-                                <div class="mb-1"><i class="fa fa-phone mr-3"></i>{{company.email}}</div>
-                                <div class="mb-1"><i class="flaticon-ethereum-1 mr-3"></i>{{company.balance}}</div>
+                                <h6 class="mb-1"><i class="fa fa-globe mr-3"></i>{{company.website}}</h6>
+                                <h6 class="mb-1"><i class="fa fa-at mr-3"></i>{{company.email}}</h6>
+                                <h6 class="mb-1"><i class="fa fa-phone mr-3"></i>{{company.phone}}</h6>
+                                <h6 class="mb-1"><i class="flaticon-ethereum-1 mr-3"></i>{{company.balance}}</h6>
 
                             <p>{{company.description}}</p>
                         </div>

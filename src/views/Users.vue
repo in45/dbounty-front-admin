@@ -22,7 +22,7 @@
                                 <b-avatar :src="data.avatar" :alt="data.title"></b-avatar>
                             </td>
                             <td data-label="Username ">
-                                <span> @{{data.username}}</span><br/>
+                                <router-link  :to="{name:'ProfilUser',params:{id:data.compte_address}}"> @{{data.username}}</router-link><br/>
                                 <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.compte_address}}</span>
                             </td>
                             <td data-label="Email "> {{data.email}}</td>

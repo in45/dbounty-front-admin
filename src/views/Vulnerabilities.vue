@@ -22,7 +22,7 @@
 
                             <td data-label="Name "> {{data.name}}</td>
                             <td data-label="Category "> {{data.category}}</td>
-                            <td data-label="Description"> <p class="m-0" style="border-radius: 4px;border: 1px solid #32394e;">{{data.description}}</p></td>
+                            <td data-label="Description"> <p class="m-0 p-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.description}}</p></td>
                             <td data-label="Actions">
                                 <ul class="list-inline m-auto">
                                     <li class="list-inline-item m-0 " @click="showEdit(data)"><vue-fontawesome icon="cog" size="1" color="deepskyblue"></vue-fontawesome></li>
