@@ -1,10 +1,15 @@
 <template>
-    <main></main>
+    <main>
+<calcul-c-v-s-s3/>
+    </main>
 </template>
 
 <script>
+
+    import CalculCVSS3 from "@/components/calculCVSS3";
     export default {
-        name: "ProgramReports"
+        name: "ProgramReports",
+        components: {CalculCVSS3}
     }
 </script>
 

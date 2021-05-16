@@ -99,6 +99,7 @@
             }
         },
         created(){
+            this.loadCompany()
             this.getPrograms()
             this.getManagers()
 
@@ -110,7 +111,18 @@
             refresh_edit(data){
                 this.company = data
             },
+            loadCompany(){
+                this.$http
+                    .get('companies/'+this.$route.params.id)
+                    .then(response => {
+                        console.log(response.data)
+                        this.company = response.data;
 
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            },
             getManagers(){
                 this.$http
                     .get('companies/'+this.$route.params.id+'/managers')
@@ -128,7 +140,6 @@
                     .get('companies/'+this.$route.params.id+'/programs')
                     .then(response => {
                         console.log(response.data)
-                        this.company = response.data[0].company
                         this.programs = response.data;
 
 
