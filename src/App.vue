@@ -24,26 +24,27 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     color: #393e46;
     background-color: #eeeeee;
-    font-size: 12px;
+    font-size: 12px!important;
   }
 
   html {
     --scrollbarBG: #CFD8DC;
-    --thumbBG: #90A4AE;
+    --thumbBG: #393e46;
   }
-  body::-webkit-scrollbar {
+  body::-webkit-scrollbar, .b-sidebar > .b-sidebar-body::-webkit-scrollbar {
     width: 8px;
   }
-  body {
+  body, .b-sidebar > .b-sidebar-body {
     scrollbar-width: thin;
     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
   }
-  body::-webkit-scrollbar-track {
+  body::-webkit-scrollbar-track, .b-sidebar > .b-sidebar-body::-webkit-scrollbar-track{
     background: none;
   }
-  body::-webkit-scrollbar-thumb {
+  body::-webkit-scrollbar-thumb ,.b-sidebar > .b-sidebar-body::-webkit-scrollbar-thumb{
     background-color: var(--thumbBG) ;
     border-radius: 6px;
   }
+
 
 </style>

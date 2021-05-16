@@ -9,7 +9,6 @@ import axios from 'axios';
 import Vuelidate from 'vuelidate'
 import VueAlertify from 'vue-alertify'
 import VueApexCharts from 'vue-apexcharts'
-
 import '@/assets/font/flaticon.css'
 
 Vue.component('VueFontawesome', require('vue-fontawesome-icon/VueFontawesome.vue').default);
@@ -19,6 +18,7 @@ Vue.use(Vuelidate)
 Vue.use(VueAlertify)
 Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)
+
 Vue.config.productionTip = false
 
 

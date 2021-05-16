@@ -2,16 +2,17 @@
     <main>
         <div class="card mt-5">
             <div class="row m-0">
-                <div class="col-xl-3 border-right">
-                    <div class="row m-0 py-2">
-                        <div class="col-5 p-0">
+                <div class="col-xl-4 border-right">
+                    <div class="row m-0 pt-2 pb-3">
+                        <div class="col-5 ">
                             <b-form-select :options="status" size="sm"></b-form-select>
                         </div>
-                        <div class="col-5 p-0 ml-auto">
+                        <div class="col-5  ml-auto">
                             <b-form-select :options="dates" size="sm"></b-form-select>
                         </div>
                     </div>
-                    <div class="card  my-3" v-for="data in reports" v-bind:key="data.id">
+                    <simplebar style="max-height: 450px;padding-right: 12px;padding-left: 12px;">
+                    <div class="card report  mb-3"  :class=" {'selected': selected_report.id == data.id}" v-for="data in reports" v-bind:key="data.id" @click="selected_report = data">
                         <div class="card-body ">
                             <h6 class="link  font-size-13 link">{{data.title}}</h6>
                             <h6 class="link text-truncate font-size-13 link">@{{data.user_address}}</h6>
@@ -20,9 +21,9 @@
                             <b-badge class="float-right" variant="info">{{data.status}}</b-badge>
                         </div>
                     </div>
-
+                    </simplebar>
                 </div>
-                <div class="col-xl-9 py-2">
+                <div class="col-xl-8 py-2">
                     <div class="card ">
                         <div class="card-header">
                             <div class="row m-0">
@@ -54,15 +55,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-title border-bottom p-2">
+                        <div class="card-title border-bottom mb-0 p-2">
                             <p class="text-muted float-right" style="font-size: 11px">{{selected_report.time_diff}}</p>
                             <h5>{{selected_report.title}}</h5>
                         </div>
 
                         <div class="card-body">
-                            <div class="row m-0">
-                                <div class="col-xl-6 pl-0 border-right">
-                                    <div role="tablist">
+                            <div class="row mx-0 mb-2">
+                                <b-badge style="font-size: 13px" class="p-3 mr-3"  role="button" v-b-toggle.report variant="dark">Edit Report</b-badge>
+                                <b-badge style="font-size: 13px" class="p-3" role="button" v-b-toggle.messages variant="dark">View Messages</b-badge>
+                                <b-form-select class="float-right ml-auto" style="width: 110px" v-model="selected_report.status" :options="status"></b-form-select>
+                            </div>
+
+                             <div role="tablist">
                                         <b-card no-body class="mb-1">
                                             <b-card-header header-tag="header" role="tab" v-b-toggle.info
                                                            style="cursor: pointer">
@@ -73,9 +78,8 @@
                                             <b-collapse id="info" accordion="my-accordion" visible role="tabpanel">
                                                 <b-card-body>
                                                     <b-card-text>
-                                                        <b-badge class="float-right" variant="info">
-                                                            {{selected_report.severity}}
-                                                        </b-badge>
+                                                        <b-form-select class="float-right" style="width: 100px" v-model="selected_report.severity" :options="['none','low','medium','high','critical']"></b-form-select>
+
                                                         <ul>
                                                             <li>Target : {{selected_report.target}}</li>
                                                             <li v-if="selected_report.vuln_id">Vulnerability :
@@ -125,16 +129,49 @@
                                             </b-collapse>
                                         </b-card>
                                     </div>
+
+                            <b-sidebar id="report" title="Edit Report" width="600px" bg-variant="dark" text-variant="light" right shadow>
+
+                                <div class="px-3 py-2">
+                                <form id="form" method="POST" >
+                                    <div class="form-group row my-1 mx-0">
+                                        <label class="pb-2 col-xl-4 m-auto"> Vulnerability Title </label>
+                                        <b-form-input class="col-xl-8" v-model="selected_report.vuln_name" type="text" placeholder="Add your vulnerability" ></b-form-input>
+                                    </div>
+                                    <div class="form-group row my-1 mx-0">
+                                        <label class="pb-2 col-xl-4 m-auto"> Target </label>
+                                        <b-form-select class="col-xl-8" v-model="selected_report.target" placeholder="Add your Target" :options="['a','b','c']"></b-form-select>
+                                    </div>
+                                    <div class="form-group row my-1 mx-0">
+                                        <label class="pb-2 col-xl-4 m-auto"> Vulnerability Category </label>
+                                        <b-form-input list="browsers" class="col-xl-8" name="browser" v-model="selected_report.vuln.category" id="browser"></b-form-input>
+                                        <datalist class="col-xl-8" id="browsers">
+                                            <option v-for="c in categories" :key="c.id" :value="c.title">{{c.title}}</option>
+                                        </datalist>
+
+                                    </div>
+                                    <div class="form-group  row my-1 mx-0">
+                                        <label class="pb-2 pl-3"> Vulnerability Details </label>
+                                        <vue-editor v-model="selected_report.vuln_details"></vue-editor>
+                                    </div>
+                                    <div class="form-group row my-1 mx-0">
+                                        <label class="pb-2 pl-3"> Validations Steps </label>
+                                        <vue-editor v-model="selected_report.validation_steps"></vue-editor>
+                                    </div>
+                                    <input type="submit" value="Save" class="bg-primary text-white float-right my-2"/>
+                                </form>
                                 </div>
-                                <div class="col-xl-6">
+                            </b-sidebar>
+                            <b-sidebar id="messages" title="Messages" bg-variant="dark" text-variant="light" right shadow>
+                                <div class="px-3 py-2">
                                     <div class="chat-message">
                                         <ul class="chat">
                                             <li class="left row mx-0 mb-2 ">
-                                                <div class="col-xl-2 p-0">
+                                                <div class="col-xl-3 p-0">
                                                     <b-avatar  alt="User Avatar"></b-avatar>
                                                 </div>
 
-                                                <div class="chat-body col-xl-10 ">
+                                                <div class="chat-body col-xl-9 ">
                                                     <div class="header p-2">
                                                         <strong class="primary-font">John Doe</strong>
                                                         <small class="pull-right text-muted"><i
@@ -162,27 +199,28 @@
 
                                         </ul>
                                     </div>
-                                    <div class="p-3 chat-input-section d-none d-md-block" >
-                                        <div class="col-xl-12">
-                                            <span  id="my_cmt" class="t form-control pr-5" role="textbox" style="border-radius: 30px" contenteditable></span>
-                                            <div class="chat-input-links">
-                                                <ul class="list-inline mb-0">
-                                                    <li class="list-inline-item">
-                                                        <a v-b-tooltip.hover placement="top"
-                                                           title="Send" >
-                                                            <i class="fa fa-paper-plane"></i>
-                                                        </a>
-                                                    </li>
 
-                                                </ul>
-                                            </div>
+                                    <div class="col-xl-12 cmt border-top pt-3">
+                                        <span  id="my_cmt" class="t form-control pr-5" role="textbox" style="border-radius: 30px" contenteditable></span>
+                                        <div class="chat-input-links">
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item">
+                                                    <a v-b-tooltip.hover placement="top"
+                                                       title="Send" >
+                                                        <i class="fa fa-paper-plane"></i>
+                                                    </a>
+                                                </li>
 
-
+                                            </ul>
                                         </div>
-                                    </div>
 
-                                </div>
-                            </div>
+
+                                    </div> </div>
+                            </b-sidebar>
+
+
+
+
 
                         </div>
                     </div>
@@ -193,11 +231,20 @@
 </template>
 
 <script>
+    import { VueEditor } from "vue2-editor";
+    import simplebar from 'simplebar-vue';
+    import 'simplebar/dist/simplebar.min.css';
+    import { vuln_Category } from "../assets/vuln_category";
     export default {
         name: "Reports",
+        components: {
+            VueEditor,
+            simplebar
+        },
         data() {
             return {
                 reports: [],
+                content: "<h1>Some initial content</h1>",
                 status: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable'],
                 dates: ['current day', 'this week', 'last week', 'this month', 'last month', 'this year', 'last year'],
                 current_page: 1,
@@ -206,7 +253,8 @@
                     user: {},
                     program: {},
                     vuln: {}
-                }
+                },
+                categories:vuln_Category
             }
         },
         created() {
@@ -247,14 +295,12 @@
         padding: 4px;
     }
 
-    .chat-message {
-        background: #f9f9f9;
-    }
 
 
 
-    .chat li.left .chat-body {
+   .chat-body {
         background-color: #fff;
+        color: #222831;
     }
 
     .chat li .chat-body {
@@ -309,10 +355,6 @@
 
 
 
-    .chat li.right .chat-body {
-        background-color: #fff;
-    }
-
 
     .primary-font {
         color: #3c8dbc;
@@ -331,5 +373,45 @@
     .t[contenteditable]:empty::before {
         content: "Write a comment...";
         color: gray;
+    }
+    .chat-input-links {
+        position: absolute;
+        right: 24px;
+        top: 60%;
+        color: #222831;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .cmt{
+        position: absolute;
+        bottom: 12px;
+    }
+   /deep/ .quillWrapper .ql-snow.ql-toolbar {
+
+        background-color: white;
+    }
+    /deep/ .ql-container{
+        height: 120px;
+    }
+    /deep/ .ql-formats{
+        margin: 0!important;
+    }
+    /deep/ .ql-editor{
+        min-height: 100px!important;
+        font-size: 12px!important;
+    }
+   /deep/ .form-control,.custom-select{
+        font-size: 12px!important;
+    }
+    .report:hover{
+        background-color: #222831;
+        color: white;
+        cursor: pointer;
+
+    }
+
+    .selected{
+        background-color: #222831;
+        color: white;
     }
 </style>
