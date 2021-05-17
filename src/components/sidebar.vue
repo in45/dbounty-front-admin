@@ -143,7 +143,7 @@
 
     /*}*/
 
-    @media screen and (max-width:900px){
+    @media screen and (max-width:1000px){
         body{
             padding-left:0;
         }

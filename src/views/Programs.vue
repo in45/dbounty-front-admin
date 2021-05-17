@@ -21,9 +21,9 @@
                     <div class="col-xl-6">
                         <b-avatar class="mr-2"></b-avatar>
                         <span class="aspect-name mr-2">  {{data.name}}</span>
-                        <b-badge pill variant="info">{{data.status}}</b-badge>
+                        <b-badge pill class="p-1" variant="info">{{data.status}}</b-badge>
                     </div>
-                    <div class="col-xl-6 m-auto text-right">
+                    <div class="col-xl-6 m-auto text-right" >
                         <ul class="row  list-inline my-0 p-0">
                             <li class="col-3 p-0 ">
                                 <i class="flaticon-bug text-primary mr-2" title="type"></i>{{data.reports_count}}
@@ -48,8 +48,8 @@
                             <div class="card">
                                 <div class=" mb-0 card-title">
                                     <div class="row m-0">
-                                    <h5 class="col-7 pt-3 pl-3">Info</h5>
-                                    <b-form-select class="col-5"  v-model="data.status" :options="status" size="sm"></b-form-select>
+                                    <h5 class="col-8 pt-3 pl-3">Info</h5>
+                                    <b-form-select class="col-4"  v-model="data.status" :options="status" size="sm"></b-form-select>
 
                                 </div>
                                 </div>
@@ -59,8 +59,8 @@
                                     <h6 class="mb-2"><span class="text-info">Begin At :</span> {{data.begin_at}}</h6>
                                     <h6 class="mb-2"><span class="text-info">Finish At :</span> {{data.finish_at}}</h6>
                                     <p>{{JSON.parse(data.description).info}}</p>
-                                    <b-badge class="float-right p-1" role="button"  @click="$router.push({name:'ProfilProgram',params:{id:data.id}})" pill variant="info">view more</b-badge>
-                                    <b-badge class="float-right p-1" role="button"  @click="$router.push({name:'ProfilProgram',params:{id:data.id}})" pill variant="info">view more</b-badge>
+                                    <b-badge class="float-right p-2" role="button"  @click="$router.push({name:'ProgramReports',params:{id:data.id}})" pill v-if="data.reports_count" variant="info">reports</b-badge>
+                                    <b-badge class="float-right p-2 mr-2" role="button"  @click="$router.push({name:'ProfilProgram',params:{id:data.id}})" pill variant="info">view more</b-badge>
 
                                 </div>
                             </div>
@@ -83,23 +83,23 @@
                                     <div class="card-body">
                                     <div class="row m-0">
                                         <span class="col-4">P1</span>
-                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p1}}</p>
+                                        <p class="col-7 p-0 text-center prio" >{{JSON.parse(data.description).rewards.p1}}</p>
                                     </div>
                                     <div class="row m-0">
                                         <span class="col-4">P2</span>
-                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p2}}</p>
+                                        <p class="col-7 p-0 text-center prio" >{{JSON.parse(data.description).rewards.p2}}</p>
                                     </div>
                                     <div class="row m-0">
                                         <span class="col-4">P3</span>
-                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p3}}</p>
+                                        <p class="col-7 p-0 text-center prio" >{{JSON.parse(data.description).rewards.p3}}</p>
                                     </div>
                                     <div class="row m-0">
                                         <span class="col-4">P4</span>
-                                        <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p4}}</p>
+                                        <p class="col-7 p-0 text-center prio" >{{JSON.parse(data.description).rewards.p4}}</p>
                                     </div>
                                     <div class="row m-0">
                                             <span class="col-4">P5</span>
-                                            <p class="col-6 text-center prio" >{{JSON.parse(data.description).rewards.p5}}</p>
+                                            <p class="col-7 p-0 text-center prio" >{{JSON.parse(data.description).rewards.p5}}</p>
                                      </div>
                                 </div>
                             </div>

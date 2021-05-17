@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="row mt-5 m-0">
-            <div class="col-xl-12 m-auto">
+            <div class="col-xl-10">
                 <div class="row mb-4">
                     <h2 class="col-10">Admins</h2>
                     <button class="col-2  btn btn-primary ml-auto"  v-b-modal.new-admin>Add</button>
@@ -11,7 +11,7 @@
                     <table class="text-center">
                         <thead>
                         <tr>
-                            <th scope="col" >#</th>
+
                             <th scope="col">Username</th>
                             <th scope="col">Email</th>
                             <th scope="col" >Role</th>
@@ -19,14 +19,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(data,index) in admins" v-bind:key="data.compte_address">
+                        <tr v-for="(data,index) in admins" v-bind:key="data.public_address">
 
-                            <td data-label="#">
-                                <b-avatar :src="data.avatar" :alt="data.title"></b-avatar>
-                            </td>
+
                             <td data-label="Username ">
                                <span> @{{data.username}}</span><br/>
-                                <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.compte_address}}</span>
+                                <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.public_address}}</span>
                             </td>
                             <td data-label="Email "> {{data.email}}</td>
                             <td data-label="Role " >
@@ -35,7 +33,7 @@
                             <td data-label="Actions">
                                 <ul class="list-inline m-auto">
                                     <li class="list-inline-item m-0 " @click="showEdit(data)"><vue-fontawesome icon="cog" size="1" color="deepskyblue"></vue-fontawesome></li>
-                                    <li class="list-inline-item m-0 " @click="deleteItem(data.compte_address)"><vue-fontawesome icon="trash" size="1" color="red"></vue-fontawesome></li>
+                                    <li class="list-inline-item m-0 " @click="deleteItem(data.public_address)"><vue-fontawesome icon="trash" size="1" color="red"></vue-fontawesome></li>
                                 </ul>
                             </td>
 
@@ -88,12 +86,12 @@
                 this.loadVulns(page);
             },
             refresh_delete(){
-                let index = this.admins.findIndex(c => c.id === this.selectedId)
+                let index = this.admins.findIndex(c => c.public_address === this.selectedId)
                 this.admins.splice(index,1)
             },
             refresh_edit(b){
                 console.log(b)
-                let index = this.admins.findIndex(c => c.id === this.admin.id)
+                let index = this.admins.findIndex(c => c.id === this.admin.public_address)
                 console.log(index)
                 this.admins[index]= b
 
@@ -105,7 +103,7 @@
             },
             changeRole(index){
                 this.$http
-                    .post('admins/'+this.admins[index].compte_address,{'role':this.admins[index].role})
+                    .post('admins/'+this.admins[index].public_address,{'role':this.admins[index].role})
                     .then(response => {
                         console.log(response.data)
                         this.$alertify.success(" success")

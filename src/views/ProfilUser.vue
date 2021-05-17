@@ -1,7 +1,7 @@
 <template>
     <main>
 
-        <h2 class="my-5">  <b-avatar :src="user.avatar" class="mr-2" :alt="user.username"></b-avatar> {{user.compte_address}}</h2>
+        <h2 class="my-5">  <b-avatar :src="user.avatar" class="mr-2" size="lg" :alt="user.username"></b-avatar> {{user.public_address}}</h2>
         <div class="row m-0">
             <div class="col-xl-5">
                 <div class="card">
@@ -19,9 +19,9 @@
                 <div class="card mt-2">
                     <div class="card-body">
                         <h4 class="mb-2">Programs</h4>
-                        <table class="table table-centered table-nowrap">
+                        <table class="table table-centered table-nowrap text-center">
                             <thead>
-                            <tr class="text-center">
+                            <tr >
                                 <td></td>
                                 <td>name</td>
                                 <td>Join At</td>

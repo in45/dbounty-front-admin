@@ -130,7 +130,7 @@
                                             </td>
                                             <td data-label="Username ">
                                                 <span> @{{data.user.username}}</span><br/>
-                                                <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.user.compte_address}}</span>
+                                                <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.user.public_address}}</span>
                                             </td>
                                             <td data-label="Thanks "> {{data.thanks}}</td>
                                             <td data-label="country" > {{data.user.country}}</td>
@@ -145,7 +145,7 @@
                                 <template v-slot:title>
                                     <span class=" d-sm-inline-block ">Submissions</span>
                                 </template>
-                                <div class=" row m-0 p-1 prio" v-for="data of reports" :key="data.id">
+                                <div class=" row my-2 mx-0 p-1 prio" v-for="data of reports" :key="data.id">
 
 
 
@@ -174,23 +174,23 @@
                         <div class="card-body" v-if="program.description">
                             <div class="row m-0">
                                 <span class="col-4">P1</span>
-                                <p class="col-6 text-center prio" >{{JSON.parse(program.description).rewards.p1}}</p>
+                                <p class="col-7 p-0 text-center prio" >{{JSON.parse(program.description).rewards.p1}}</p>
                             </div>
                             <div class="row m-0">
                                 <span class="col-4">P2</span>
-                                <p class="col-6 text-center prio" >{{JSON.parse(program.description).rewards.p2}}</p>
+                                <p class="col-7 p-0 text-center prio" >{{JSON.parse(program.description).rewards.p2}}</p>
                             </div>
                             <div class="row m-0">
                                 <span class="col-4">P3</span>
-                                <p class="col-6 text-center prio" >{{JSON.parse(program.description).rewards.p3}}</p>
+                                <p class="col-7 p-0 text-center prio" >{{JSON.parse(program.description).rewards.p3}}</p>
                             </div>
                             <div class="row m-0">
                                 <span class="col-4">P4</span>
-                                <p class="col-6 text-center prio" >{{JSON.parse(program.description).rewards.p4}}</p>
+                                <p class="col-7 p-0 text-center prio" >{{JSON.parse(program.description).rewards.p4}}</p>
                             </div>
                             <div class="row m-0">
                                 <span class="col-4">P5</span>
-                                <p class="col-6 text-center prio" >{{JSON.parse(program.description).rewards.p5}}</p>
+                                <p class="col-7 p-0 text-center prio" >{{JSON.parse(program.description).rewards.p5}}</p>
                             </div>
                             <p class="m-2">Range Response : {{program.range_response}}</p>
                         </div>

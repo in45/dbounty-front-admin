@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="row pt-3 m-auto">
-                        <div class="col-xl-3 m-auto">
+                        <div class="col-xl-4 m-auto">
                             <input type="button"  class="btn btn-primary btn-block"  value="Generate" @click="Generate('beta_code')"/>
                         </div>
                         <div class="col-xl-3 m-auto">

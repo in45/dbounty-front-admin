@@ -2,10 +2,10 @@
     <div id="app mt-0">
         <nav-bar/>
         <div class="row m-0">
-            <div class="col-xl-2 p-0">
+            <div class="col-xl-2  col-md-3 p-0">
                 <sidebar/>
             </div>
-            <div class="col-xl-10">
+            <div class="col-xl-10 col-md-9">
                 <RouterView></RouterView>
             </div>
 

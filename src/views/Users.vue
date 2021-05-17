@@ -16,14 +16,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(data,index) in users" v-bind:key="data.compte_address">
+                        <tr v-for="(data,index) in users" v-bind:key="data.public_address">
 
                             <td data-label="#">
                                 <b-avatar :src="data.avatar" :alt="data.title"></b-avatar>
                             </td>
                             <td data-label="Username ">
-                                <router-link  :to="{name:'ProfilUser',params:{id:data.compte_address}}"> @{{data.username}}</router-link><br/>
-                                <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.compte_address}}</span>
+                                <router-link  :to="{name:'ProfilUser',params:{id:data.public_address}}"> @{{data.username}}</router-link><br/>
+                                <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.public_address}}</span>
                             </td>
                             <td data-label="Email "> {{data.email}}</td>
                             <td data-label="country" > {{data.country}}</td>
@@ -89,7 +89,7 @@
             },
             banneUser(event,index){
                 this.$http
-                    .put('users/'+this.users[index].compte_address+'/ban')
+                    .put('users/'+this.users[index].public_address+'/ban')
                     .then(response => {
                         console.log(response.data);
                         this.$alertify.success(" success")
