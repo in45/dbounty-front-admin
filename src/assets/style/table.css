@@ -22,7 +22,7 @@ thead  {
 
 
 table td, th {
-
+vertical-align: middle;
 padding: 0.55rem;
 }
 
