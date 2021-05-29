@@ -8,12 +8,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h6 class="mb-4">
-                                       Tops Played Game
+                                       Registred Researchers
                                     </h6>
 
                                     <div class="row">
                                         <div class="col-6">
-                                                <h6 class="text-danger">Penalty Kick</h6>
+                                                <h6 class="text-danger">12808</h6>
                                         </div>
                                         <div class="col-6">
                                             <div>
@@ -35,12 +35,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h6 class="mb-4">
-                                        Total Gains
+                                        Total Bounties
                                     </h6>
 
                                     <div class="row">
                                         <div class="col-6">
-                                                <h6 class="text-info">1,050,250 €</h6>
+                                                <h6 class="text-info">1,050,250 </h6>
                                         </div>
                                         <div class="col-6">
                                             <div>
@@ -62,7 +62,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h6 class="mb-4">
-                                      Online People
+                                      Companies
                                     </h6>
 
                                     <div class="row">
@@ -136,7 +136,7 @@
             return{
                 top_players : {
                     series: [{
-                        name: 'Player',
+                        name: 'Hunter',
                         data: [12, 14, 2, 47, 42, 15, 47, 75, 65, 19, 14]
                     }],
                     chartOptions: {
@@ -219,7 +219,7 @@
                 },
                 online_people : {
                     series: [{
-                        name: 'Pts',
+                        name: 'Number',
                         data: [35, 53, 93, 47, 54, 24, 47, 75, 65, 19, 14]
                     }],
                     chartOptions: {
@@ -260,11 +260,11 @@
                 },
                 dashedLineChart :{
                     series: [{
-                        name: "Tournament played by day",
+                        name: "Registred Programs by day",
                         data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
                     },
                         {
-                            name: "Duels played by day",
+                            name: "Submitted Reports  by day",
                             data: [36, 42, 60, 42, 13, 18, 29, 37, 36, 51, 32, 35]
                         }],
                     chartOptions: {
@@ -300,27 +300,27 @@
                                 '10 Jan', '11 Jan', '12 Jan'
                             ],
                         },
-                        tooltip: {
-                            y: [{
-                                title: {
-                                    formatter: function (val) {
-                                        return val + " (mins)"
-                                    }
-                                }
-                            }, {
-                                title: {
-                                    formatter: function (val) {
-                                        return val + " per session"
-                                    }
-                                }
-                            }, {
-                                title: {
-                                    formatter: function (val) {
-                                        return val;
-                                    }
-                                }
-                            }]
-                        },
+                        // tooltip: {
+                        //     y: [{
+                        //         title: {
+                        //             formatter: function (val) {
+                        //                 return val + " (mins)"
+                        //             }
+                        //         }
+                        //     }, {
+                        //         title: {
+                        //             formatter: function (val) {
+                        //                 return val + " per session"
+                        //             }
+                        //         }
+                        //     }, {
+                        //         title: {
+                        //             formatter: function (val) {
+                        //                 return val;
+                        //             }
+                        //         }
+                        //     }]
+                        // },
                         grid: {
                             borderColor: '#f1f1f1',
                         }

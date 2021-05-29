@@ -12,17 +12,17 @@ table{
 }
 
 thead  {
-    font-size: .69em;
+    font-size: .9em;
     background-color: #393e46;
     color: white;
-    letter-spacing: .1em;
+    letter-spacing: .2em;
     text-transform: uppercase;
 }
 
 
 
 table td, th {
-vertical-align: middle;
+
 padding: 0.55rem;
 }
 
@@ -30,7 +30,7 @@ table td{
 border-top: 1px solid #393e46;
 color: #393e46;
 font-weight: 500;
-
+    vertical-align: middle!important;
 
 }
 
@@ -59,7 +59,7 @@ table{
 }
 
 i {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 table thead {
@@ -79,8 +79,9 @@ table tr {
 
 table td {
     display: block;
-    font-size: .6em;
+    font-size: .8em;
     text-align: right;
+    vertical-align: middle;
     padding-left: 12px;
     padding-right: 12px;
     min-height: 32px;

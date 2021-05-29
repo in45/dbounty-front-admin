@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="row mt-5 m-0">
-            <div class="col-xl-10">
+            <div class="col-xl-11">
                 <div class="row mb-4">
                     <h2 class="col-10">Admins</h2>
                     <button class="col-2  btn btn-primary ml-auto"  v-b-modal.new-admin>Add</button>
@@ -19,7 +19,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(data,index) in admins" v-bind:key="data.public_address">
+                        <tr v-for="(data,index) in admins" v-bind:key="data.id">
 
 
                             <td data-label="Username ">
@@ -33,7 +33,7 @@
                             <td data-label="Actions">
                                 <ul class="list-inline m-auto">
                                     <li class="list-inline-item m-0 " @click="showEdit(data)"><vue-fontawesome icon="cog" size="1" color="deepskyblue"></vue-fontawesome></li>
-                                    <li class="list-inline-item m-0 " @click="deleteItem(data.public_address)"><vue-fontawesome icon="trash" size="1" color="red"></vue-fontawesome></li>
+                                    <li class="list-inline-item m-0 " @click="deleteItem(data.id)"><vue-fontawesome icon="trash" size="1" color="red"></vue-fontawesome></li>
                                 </ul>
                             </td>
 
@@ -86,12 +86,12 @@
                 this.loadVulns(page);
             },
             refresh_delete(){
-                let index = this.admins.findIndex(c => c.public_address === this.selectedId)
+                let index = this.admins.findIndex(c => c.id === this.selectedId)
                 this.admins.splice(index,1)
             },
             refresh_edit(b){
                 console.log(b)
-                let index = this.admins.findIndex(c => c.id === this.admin.public_address)
+                let index = this.admins.findIndex(c => c.id === this.admin.id)
                 console.log(index)
                 this.admins[index]= b
 
@@ -103,7 +103,7 @@
             },
             changeRole(index){
                 this.$http
-                    .post('admins/'+this.admins[index].public_address,{'role':this.admins[index].role})
+                    .post('admins/'+this.admins[index].id,{'role':this.admins[index].role})
                     .then(response => {
                         console.log(response.data)
                         this.$alertify.success(" success")

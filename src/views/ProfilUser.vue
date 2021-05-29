@@ -6,20 +6,20 @@
             <div class="col-xl-5">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row mb-2">
+                        <div class="row mb-4">
                             <h4 class="col-9">Infos // @{{user.username}}</h4>
                         </div>
-                        <h6 class="mb-1">{{user.first_name + ' ' + user.last_name}}</h6>
-                        <h6 class="mb-1"><i class="fa fa-at mr-3"></i>{{user.email}}</h6>
-                        <h6 class="mb-1"><i class="fa fa-phone mr-3"></i>{{user.phone}}</h6>
-                        <h6 class="mb-1"><i class="flaticon-ethereum-1 mr-3"></i>{{user.score}}</h6>
+                        <h6 class="mb-3">{{user.first_name + ' ' + user.last_name}}</h6>
+                        <h6 class="mb-3"><i class="fa fa-at mr-3"></i>{{user.email}}</h6>
+                        <h6 class="mb-3"><i class="fa fa-phone mr-3"></i>{{user.phone}}</h6>
+                        <h6 class="mb-3"><i class="flaticon-ethereum-1 mr-3"></i>{{user.reputation}}</h6>
                         <p>{{user.country}}</p>
                     </div>
                 </div>
                 <div class="card mt-2">
                     <div class="card-body">
                         <h4 class="mb-2">Programs</h4>
-                        <table class="table table-centered table-nowrap text-center">
+                        <table class="table table-centered table-nowrap text-center text-white" v-if="programs.length">
                             <thead>
                             <tr >
                                 <td></td>
@@ -37,6 +37,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        <p class="my-2 text-muted text-center m-auto" v-else-if="loadPrograms"> No Data Found</p>
                     </div>
                 </div>
             </div>
@@ -44,15 +45,18 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="mb-4">Reports</h4>
-                        <div class="row mx-1 mb-2 p-1 prio " v-for="data of reports" :key="data.id">
-                            <div class="col-xl-12">
-                                <p class="text-muted float-right" style="font-size: 11px">{{data.time_diff}}</p>
-                                <h6 class="aspect-name ">{{data.title}}</h6>
-                                <h6 class="text-muted " v-if="data.vuln_id">{{data.vuln.name}}</h6>
-                                <h6 class="text-muted " v-else>{{data.vuln_name}}</h6>
-                                <b-badge  class="p-1 float-right" variant="info">{{data.status}}</b-badge>
+                        <div class="row mx-1 my-4 p-3 prio " v-if="reports.length">
+                            <div  v-for="data of reports" :key="data.id">
+                                <div class="col-xl-12">
+                                    <p class="text-muted float-right" style="font-size: 11px">{{data.time_diff}}</p>
+                                    <h6 class="aspect-name ">{{data.title}}</h6>
+                                    <h6 class="text-muted " v-if="data.vuln_id">{{data.vuln.name}}</h6>
+                                    <h6 class="text-muted " v-else>{{data.vuln_name}}</h6>
+                                    <b-badge  class="p-1 float-right" variant="info">{{data.status}}</b-badge>
+                                </div>
                             </div>
                         </div>
+                        <p class="my-2 text-muted text-center m-auto" v-else-if="loadReports"> No Data Found</p>
 
                     </div>
 
@@ -71,7 +75,9 @@
             return{
                 user:{},
                 reports:[],
-                programs:[]
+                programs:[],
+                loadPrograms:false,
+                loadReports:false,
             }
         },
         created(){
@@ -99,6 +105,7 @@
                     .then(response => {
                         console.log(response.data)
                         this.reports = response.data;
+                        this.loadReports = true
 
                     })
                     .catch(error => {
@@ -111,6 +118,7 @@
                     .then(response => {
                         console.log(response.data)
                         this.programs = response.data;
+                        this.loadPrograms = true
 
 
                     })
@@ -130,5 +138,10 @@
     }
     .card-body {
         font-size: 14px;
+    }
+    .table th, .table td {
+        padding: 0.75rem;
+        vertical-align: middle!important;
+        border-top: 1px solid #dee2e6;
     }
 </style>

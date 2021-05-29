@@ -47,7 +47,7 @@
                                             <div class="row m-0">
                                                 <h5 class="col-8 pt-3 pl-3">Info</h5>
                                                 <b-form-select class="col-4" v-model="data.status" :options="status"
-                                                               size="sm"></b-form-select>
+                                                               size="sm" @change="ChangeStatus(data.id,data.status)"></b-form-select>
 
                                             </div>
                                         </div>
@@ -145,10 +145,10 @@
         components: {Paginate},
         data() {
             return {
-                current_page: 1,
-                status: ['none', 'new', 'open', 'closed'],
+
+                status: ['pending', 'new', 'open', 'closed'],
                 programs: [],
-                val: 'new',
+                current_page: 1,
                 last_page_url: 6,
 
             }
@@ -162,6 +162,18 @@
             changePage(page) {
                 this.current_page = page;
                 this.loadPrograms(page);
+            },
+            ChangeStatus(id,status){
+                this.$http
+                    .post('programs/'+id,{status:status})
+                    .then(response => {
+                        console.log(response.data)
+                        this.$alertify.success("Success :)")
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             },
 
             loadPrograms(page) {

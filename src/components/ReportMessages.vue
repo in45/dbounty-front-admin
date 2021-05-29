@@ -1,13 +1,13 @@
 <template>
-    <b-sidebar id="messages"  width="400px" title="Messages" bg-variant="dark" text-variant="light" right shadow>
+    <b-sidebar id="messages"  width="400px" title="Messages" bg-variant="dark" text-variant="light" right shadow backdrop backdrop-variant="transparent">
         <div class="px-3 py-2">
             <b-tabs pills justified content-class="pt-3">
                 <b-tab  class="border-0">
                     <template v-slot:title>
                         <span class=" d-sm-inline-block ">Manager</span>
                     </template>
-                    <simplebar style="max-height: 70vh;padding-right: 12px;padding-left: 12px;">
-                    <div class="chat-message">
+                    <div class="chat-message" >
+
                         <ul class="chat">
                             <li class="left row mx-0 mb-2 ">
                                 <div class="col-3 p-0">
@@ -100,8 +100,8 @@
                                 </div>
                             </li>
                         </ul>
+
                     </div>
-                    </simplebar>
 
                 </b-tab>
                 <b-tab  class="border-0">

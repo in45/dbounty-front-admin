@@ -9,25 +9,27 @@
                         <tr>
                             <th scope="col" >#</th>
                             <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col" >Country</th>
-                            <th scope="col" >Score</th>
+                            <th scope="col" >Reputation</th>
+                            <th scope="col" >Programs</th>
+                            <th scope="col" >Reports</th>
+                            <th scope="col" >Thanks</th>
                             <th scope="col"  style="min-width: 90px"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="(data,index) in users" v-bind:key="data.public_address">
+                        <tr v-for="(data,index) in users" v-bind:key="data.id">
 
                             <td data-label="#">
                                 <b-avatar :src="data.avatar" :alt="data.title"></b-avatar>
                             </td>
                             <td data-label="Username ">
-                                <router-link  :to="{name:'ProfilUser',params:{id:data.public_address}}"> @{{data.username}}</router-link><br/>
+                                <router-link  :to="{name:'ProfilUser',params:{id:data.id}}"> @{{data.username}}</router-link><br/>
                                 <span class="px-1" style="border-radius: 4px;border: 1px solid #32394e;">{{data.public_address}}</span>
                             </td>
-                            <td data-label="Email "> {{data.email}}</td>
-                            <td data-label="country" > {{data.country}}</td>
-                            <td data-label="Score" > {{data.score}}</td>
+                            <td data-label="Reputation" > {{data.reputation}}</td>
+                            <td data-label="Programs" > {{data.count_programs}}</td>
+                            <td data-label="Reports" > {{data.count_reports}}</td>
+                            <td data-label="Thanks" > {{data.thanks}}</td>
                             <td data-label="State">
                                 <button class="btn-outline" v-on:click="banneUser($event,index)"  v-bind:class="{ banned: data.state=='0' }">{{ (data.state == '0') ? 'Unban': 'Ban' }}</button>
                             </td>
@@ -89,7 +91,7 @@
             },
             banneUser(event,index){
                 this.$http
-                    .put('users/'+this.users[index].public_address+'/ban')
+                    .put('users/'+this.users[index].id+'/ban')
                     .then(response => {
                         console.log(response.data);
                         this.$alertify.success(" success")

@@ -4,22 +4,28 @@
             <div class="row m-0">
                 <div class="col-xl-4 border-right">
                     <div class="row m-0 pt-2 pb-3">
-                        <div class="col-5 ">
-                            <b-form-select :options="status" size="sm"></b-form-select>
+                        <div class="col-6 my-auto">
+                            <b-form-checkbox v-model="filtre_type" @change="getReports(1)" switch size="sm">Assigned to me</b-form-checkbox>
                         </div>
                         <div class="col-5  ml-auto">
-                            <b-form-select :options="dates" size="sm"></b-form-select>
+                            <b-form-select v-model="filtre_status" size="sm">
+                                <b-form-select-option value="" disabled selected>Status</b-form-select-option>
+                                <b-form-select-option v-for="s in status" :value="s" :key="s">{{s}}</b-form-select-option>
+                                <b-form-select-option value="">all</b-form-select-option>
+                            </b-form-select>
                         </div>
                     </div>
                     <simplebar style="max-height: 600px;padding-right: 12px;padding-left: 12px;">
+                        <div v-if="reports.length && is_load">
                         <div class="card report  mb-3"  :class=" {'selected': selected_report.id == data.id}" v-for="data in reports" v-bind:key="data.id" @click="selected_report = data">
                             <div class="card-body ">
                                 <h6 class="link  font-size-13 link">{{data.title}}</h6>
-                                <h6 class="link text-truncate font-size-13 link">@{{data.user_address}}</h6>
+                                <h6 class="link text-truncate font-size-13 link">@{{data.user.username}}</h6>
                                 <p class="text-muted mb-0" v-if="data.vuln_id">{{data.vuln.name}}</p>
                                 <p class="text-muted mb-0" v-else>{{data.vuln_name}}</p>
                                 <b-badge class="float-right" variant="info">{{data.status}}</b-badge>
                             </div>
+                        </div>
                         </div>
                     </simplebar>
                 </div>
@@ -29,7 +35,7 @@
                             <div class="row m-0">
                                 <div class="col-xl-4  border-right m-auto">
                                     <b-avatar class="mr-2" :src="selected_report.user.avatar"
-                                              :title="selected_report.user_address"></b-avatar>
+                                              :title="selected_report.user.public_address"></b-avatar>
                                     <span class="address">@{{selected_report.user.username}}</span>
                                 </div>
                                 <div class="col-xl-8 m-auto">
@@ -39,8 +45,8 @@
                                             <h6>{{selected_report.user.count_reports}}</h6>
                                         </li>
                                         <li class="col-xl-3 col-md-6 col-sm-6 w-50 text-center">
-                                            <p class="mb-0">Score</p>
-                                            <h6>{{selected_report.user.score}}</h6>
+                                            <p class="mb-0">Reputation</p>
+                                            <h6>{{selected_report.user.reputation}}</h6>
                                         </li>
                                         <li class="col-xl-3 col-md-6 col-sm-6 w-50 text-center">
                                             <p class="mb-0">Programs</p>
@@ -66,7 +72,7 @@
                                 <edit-report :selected_report="selected_report"/>
                                 <b-badge style="font-size: 13px" class="p-3" role="button" v-b-toggle.messages variant="dark">View Messages</b-badge>
                                 <report-messages/>
-                                <b-form-select class="float-right ml-auto" style="width: 110px" v-model="selected_report.status" :options="status"></b-form-select>
+                                <b-form-select class="float-right ml-auto" style="width: 160px" v-model="selected_report.status" :options="status"></b-form-select>
                             </div>
 
                             <div role="tablist">
@@ -161,7 +167,6 @@
                 reports: [],
                 content: "<h1>Some initial content</h1>",
                 status: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable'],
-                dates: ['current day', 'this week', 'last week', 'this month', 'last month', 'this year', 'last year'],
                 current_page: 1,
                 last_page_url: 6,
                 selected_report: {
@@ -169,20 +174,32 @@
                     program: {},
                     vuln: {}
                 },
+                filtre_status:'',
+                filtre_type:false,
+                is_load:false,
                 categories:vuln_Category
             }
         },
         created() {
             this.getReports(1)
         },
+        watch: {
+            filtre_status: function () {
+                this.getReports(1)
+            },
+        },
         methods: {
             getReports(page) {
+                let item = {
+                    'status':this.filtre_status,
+                    'type':this.filtre_type
+                }
                 this.$http
-                    .get('programs/'+this.$route.params.id+'/reports?page=' + page)
+                    .post('programs/'+this.$route.params.id+'/reports?page=' + page,item)
                     .then(response => {
-                        console.log(response.data)
-                        this.reports = response.data;
-                        this.selected_report = this.reports[0];
+                        this.reports = response.data.data;
+                        this.is_load = true
+                        if(this.reports.length) this.selected_report = this.reports[0];
                         this.last_page_url = response.data.last_page;
                         this.current_page = response.data.current_page
 

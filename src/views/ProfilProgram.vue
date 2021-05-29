@@ -4,7 +4,7 @@
                 <div class="content border-bottom mt-4 p-2">
                     <div class="row p-2">
                         <div class="col-xl-2 mb-2">
-                            <b-avatar square size="9em" style="width: 100%;"></b-avatar>
+                            <b-avatar square size="9em" :src="program.logo" style="width: 100%;"></b-avatar>
                         </div>
                         <div class="col-xl-7">
 
@@ -34,7 +34,7 @@
                         <div class="col-xl-3 p-0 border-left">
                             <p class="m-2">Begin At : {{new Date(program.begin_at).toLocaleString()}}</p>
                             <p class="m-2">Finish At : {{new Date(program.finish_at).toLocaleString()}}</p>
-                            <b-badge pill class="m-2" variant="info">Managed By DBounty</b-badge><br/>
+                            <b-badge pill class="m-2" variant="info" v-if="program.managed_by_dbounty">Managed By DBounty</b-badge><br/>
                             <b-badge pill class="m-2" variant="info">{{program.type}}</b-badge>
                         </div>
                     </div>
@@ -57,15 +57,6 @@
                                             <b-card-body v-if="program.description">
                                                 <b-card-text v-html="JSON.parse(program.description).info">
                                                    {{JSON.parse(program.description).info}}
-<!--                                                    <ul class="m-4">-->
-<!--                                                        <li>Lorem Ipsum is not simply random text. It has roots in a piece</li>-->
-<!--                                                        <li>Lorem Ipsum is not simply random text. It has roots in a piece</li>-->
-<!--                                                        <li>Lorem Ipsum is not simply random text. It has roots in a piece</li>-->
-<!--                                                        <li>Lorem Ipsum is not simply random text. It has roots in a piece</li>-->
-<!--                                                        <li>Lorem Ipsum is not simply random text. It has roots in a piece</li>-->
-<!--                                                        <li>Lorem Ipsum is not simply random text. It has roots in a piece</li>-->
-
-<!--                                                    </ul>-->
 
                                                 </b-card-text>
                                             </b-card-body>
@@ -119,11 +110,11 @@
                                             <th scope="col">Username</th>
                                             <th scope="col">Thanks</th>
                                             <th scope="col" >Country</th>
-                                            <th scope="col" >Score</th>
+                                            <th scope="col" >Reputation</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="data in users" v-bind:key="data.user_address">
+                                        <tr v-for="data in users" v-bind:key="data.id">
 
                                             <td data-label="#">
                                                 <b-avatar :src="data.user.avatar" ></b-avatar>
@@ -134,7 +125,7 @@
                                             </td>
                                             <td data-label="Thanks "> {{data.thanks}}</td>
                                             <td data-label="country" > {{data.user.country}}</td>
-                                            <td data-label="Score" > {{data.user.score}}</td>
+                                            <td data-label="Reputation" > {{data.user.reputation}}</td>
 
                                         </tr>
                                         </tbody>
@@ -145,12 +136,13 @@
                                 <template v-slot:title>
                                     <span class=" d-sm-inline-block ">Submissions</span>
                                 </template>
+                                <div v-if="load && reports.length">
                                 <div class=" row my-2 mx-0 p-1 prio" v-for="data of reports" :key="data.id">
 
 
 
                                 <div class="col-xl-5  border-right m-auto">
-                                    <b-avatar  size="lg" class="mr-2" :src="data.user.avatar" :title="data.user_address"></b-avatar>
+                                    <b-avatar  size="lg" class="mr-2" :src="data.user.avatar" :title="data.user.public_address"></b-avatar>
                                     <span class="address">@{{data.user.username}}</span>
                                 </div>
                                 <div class="col-xl-7 m-auto">
@@ -164,7 +156,11 @@
                                     <p>{{new Date(data.created_at).toLocaleString()}}</p>
                                 </div>
                                 </div>
-
+                                <div class="text-center my-4" v-if="current_page != last_page_url">
+                                    <paginate :current_page=current_page :last_page_url=last_page_url
+                                              v-on:change-page="getReports"/>
+                                </div>
+                                </div>
 
                             </b-tab>
                         </b-tabs>
@@ -202,25 +198,27 @@
 
 <script>
 
+    import Paginate from "@/components/pagination";
     export default {
         name: "ProfilProgram",
-
-
+        components: {Paginate},
         data() {
             return {
-                content: "<h1>Some initial content</h1>",
+                current_page: 1,
+                last_page_url: 6,
                 program:{
                     name:'',
                     company:{}
                 },
                 reports:[],
-                users:[]
+                users:[],
+                load:false
             }
         },
         created(){
             this.loadProgram()
             this.getUsers()
-            this.getReports()
+            this.getReports(1)
         },
         methods:{
             loadProgram(){
@@ -247,12 +245,15 @@
                         console.log(error)
                     })
             },
-            getReports(){
+            getReports(page){
                 this.$http
-                    .get('programs/'+this.$route.params.id+'/reports')
+                    .post('programs/'+this.$route.params.id+'/reports?page='+page)
                     .then(response => {
 
-                        this.reports = response.data;
+                        this.reports = response.data.data;
+                        this.load=true
+                        this.last_page_url = response.data.last_page;
+                        this.current_page = response.data.current_page
 
                     })
                     .catch(error => {
@@ -271,7 +272,6 @@
     .content{
         background-color:  #222831;
         border-radius: 12px 12px 0 0;
-        min-height: 200px;
         color: white;
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <b-sidebar id="report" title="Edit Report" width="600px" bg-variant="dark" text-variant="light" right shadow>
+    <b-sidebar id="report" title="Edit Report" width="600px" bg-variant="dark" text-variant="light" right shadow backdrop backdrop-variant="transparent">
 
         <div class="px-3 py-2">
             <form id="form" method="POST" >
@@ -36,6 +36,7 @@
 <script>
 
     import {VueEditor} from "vue2-editor";
+    import {vuln_Category} from "@/assets/vuln_category";
 
 
     export default {
@@ -44,6 +45,11 @@
         components: {
             VueEditor
         },
+        data(){
+            return{
+                categories: vuln_Category
+            }
+        }
     }
 </script>
 

@@ -7,87 +7,78 @@
 
                 </div>
                 <div class="card-body">
-        <form>
-            <div class="row">
+                    <form>
+                        <div class="row">
 
-                <div class="col-xl-9 m-auto font-size-14">
-                    <form id="form"  method="POST" @submit.prevent="handleSubmit">
-                        <div class="form-group mt-3 mb-0">
-                            <label class="pb-2">Username :</label>
-                            <b-form-input type="text" v-model="user.username" placeholder="Enter your username"
-                                           :class="{ 'is-invalid': typesubmit && $v.user.username.$error }"></b-form-input>
-                            <div v-if="typesubmit && $v.user.username.$error" class="invalid-feedback ">
-                                <span v-if="!$v.user.username.required" class="text-danger">The Value is required !</span>
-                            </div>
-                            <div v-if="typesubmit && $v.user.username.$error" class="invalid-feedback ">
-                                <span v-if="!$v.user.username.minLength || !$v.user.username.maxLength" class="text-danger">The username needs to be between 5-20 characters!</span>
-                            </div>
-                        </div>
-                        <div class="form-group mt-3 mb-0">
-                            <label class="pb-2">Password :</label>
-<!--                            <vue-fontawesome :icon="icon" size="2" color="dark" id="togglePassword" @click="visibility"></vue-fontawesome>-->
-                            <b-form-input type="password"  v-model="user.password" id="password" placeholder="Enter your password"
-                                             :class="{ 'is-invalid': typesubmit && $v.user.password.$error }"></b-form-input>
-                            <div v-if="typesubmit && $v.user.password.$error" class="invalid-feedback ">
-                                <span v-if="!$v.user.password.required" class="text-danger"> The Value is required !</span>
-                            </div>
-                        </div>
+                            <div class="col-xl-9 m-auto font-size-14">
+                                <form id="form" method="POST" @submit.prevent="handleSubmit">
+                                    <div class="form-group mt-3 mb-0">
+                                        <label class="pb-2">Email :</label>
+                                        <b-form-input type="text" v-model="admin.email" placeholder="Enter your Email"
+                                                      :class="{ 'is-invalid': typesubmit && $v.admin.email.$error }"></b-form-input>
+                                        <div v-if="typesubmit && $v.admin.email.$error" class="invalid-feedback ">
+                                            <span v-if="!$v.admin.email.required" class="text-danger">The Value is required !</span>
+                                            <span v-if="!$v.admin.email.email"
+                                                  class="text-danger">Invalid Email !</span>
+                                        </div>
 
-                        <div class="mt-3">
-                            <input type="submit"  class="btn btn-primary btn-block"  value="Login" />
+                                    </div>
+                                    <div class="form-group mt-3 mb-0">
+                                        <label class="pb-2">Password :</label>
+                                        <!--                            <vue-fontawesome :icon="icon" size="2" color="dark" id="togglePassword" @click="visibility"></vue-fontawesome>-->
+                                        <b-form-input type="password" v-model="admin.password" id="password"
+                                                      placeholder="Enter your password"
+                                                      :class="{ 'is-invalid': typesubmit && $v.admin.password.$error }"></b-form-input>
+                                        <div v-if="typesubmit && $v.admin.password.$error" class="invalid-feedback ">
+                                            <span v-if="!$v.admin.password.required" class="text-danger"> The Value is required !</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Login"/>
+                                    </div>
+
+                                </form>
+                            </div>
+
+
                         </div>
                     </form>
-<!--                    <div class="row mt-3 mb-3">-->
-<!--                            <a href="#" class="pl-3">Forgotten Password?</a>-->
-<!--                    </div>-->
                 </div>
-
-
-            </div>
-        </form>
-    </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import {maxLength, minLength, required} from "vuelidate/lib/validators";
+    import {email, required} from "vuelidate/lib/validators";
     import Vue from "vue";
+
+
     export default {
         name: "signin",
         data() {
             return {
                 typesubmit: false,
-                icon: 'eye',
-                user: {
-                    username: '',
+                admin: {
+                    email: '',
                     password: '',
                 }
 
             }
         },
         validations: {
-            user:{
-                username: {required,minLength: minLength(5),maxLength: maxLength(20)},
+            admin: {
+                email: {required, email},
                 password: {required},
             },
         },
-        created(){
-            this.typesubmit=false;
-            this.user={}
+        created() {
+            this.typesubmit = false;
+            this.admin = {}
         },
 
         methods: {
-            // visibility() {
-            //
-            //     const password = document.querySelector('#password');
-            //     // toggle the type attribute
-            //     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            //     password.setAttribute('type', type);
-            //     // toggle the eye slash icon
-            //     this.icon = 'eye-slash';
-            // },
 
             handleSubmit() {
                 this.typesubmit = true;
@@ -97,20 +88,21 @@
                 if (this.$v.$invalid) {
                     return;
                 }
-               this.login();
+                this.login();
 
             },
 
             login() {
                 this.$http
-                    .post('login', this.user)
+                    .post('login', this.admin)
                     .then(response => {
-                        console.log(response.data.access_token)
+                        console.log(response.data.token.access_token)
+                        this.$store.commit('me', response.data.admin)
                         this.$alertify.success("Success :)")
-                        const token = response.data.access_token;
+                        const token = response.data.token.access_token;
                         localStorage.setItem('token', token)
                         Vue.prototype.$http.defaults.headers.common['Authorization'] = 'Bearer ' + token
-                        this.$router.push({'name':'Dashboard'})
+                        this.$router.push({'name': 'Dashboard'})
                     })
                     .catch(error => {
                         console.log(error)
