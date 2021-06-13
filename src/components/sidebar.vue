@@ -8,6 +8,7 @@
             <li tabindex="0" class="icon-customers" @click="$router.push({name:'Companies'})" ><span>Companies</span></li>
             <li tabindex="0" class="icon-customers" @click="$router.push({name:'Programs'})"><span>Programs</span></li>
             <li tabindex="0" class="icon-customers" @click="$router.push({name:'Reports'})"><span>Reports</span></li>
+            <li tabindex="0" class="icon-customers" @click="$router.push({name:'Messages'})"><span>Messages</span></li>
             <li tabindex="0" class="icon-users" @click="$router.push({name:'Badges'})"><span>Badges</span></li>
             <li tabindex="0" class="icon-users" @click="$router.push({name:'Vulnerabilities'})"><span>Vulnerabilities</span></li>
 

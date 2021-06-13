@@ -22,7 +22,7 @@ Vue.component('apexchart', VueApexCharts)
 
 Vue.config.productionTip = false
 
-
+Vue.prototype.$url_websocket_main = 'http://localhost:5000/'
 Vue.prototype.$http =  axios.create({
   baseURL: 'http://localhost:8000/api/',
   headers: { "Content-Type": "application/json"}
