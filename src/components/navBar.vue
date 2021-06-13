@@ -1,7 +1,10 @@
 <template>
 
         <b-navbar  class="nav w-100 p-2">
-            <b-navbar-brand  class="ml-5 mr-5 " style="font-family: Good Times;cursor: pointer">DBounty</b-navbar-brand>
+            <b-navbar-brand  class="ml-5 mr-5 " style="font-family: Good Times;cursor: pointer">
+                <img src="@/assets/images/logo.svg" class="mr-3" width="70">
+                <span class="my-auto" style="color: #c2e6ea">DBounty</span>
+            </b-navbar-brand>
         </b-navbar>
 
 </template>

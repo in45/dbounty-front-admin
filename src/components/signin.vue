@@ -1,9 +1,9 @@
 <template>
-    <div class="row mr-0" style="margin-top: 10%;margin-bottom: 8%">
-        <div class="col-xl-4 m-auto ">
+    <div class="row mr-0" style="margin-top: 12vh;">
+        <div class="col-xl-5 m-auto ">
             <div class="card">
-                <div class="card-header">
-                    <h1 class="text-center text-white">DBounty</h1>
+                <div class="card-header text-center">
+                    <img src="@/assets/images/logo.svg"  width="100">
 
                 </div>
                 <div class="card-body">
