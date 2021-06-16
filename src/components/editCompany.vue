@@ -1,6 +1,6 @@
 <template>
     <b-modal id="edit-company" centered  ref="modal" size="md" title-class="font-18"
-             hide-footer title="Add Company" @shown="create">
+             hide-footer title="Edit Company" @shown="create">
 
             <div class="row">
 

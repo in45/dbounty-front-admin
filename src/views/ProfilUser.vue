@@ -19,7 +19,7 @@
                 <div class="card mt-2">
                     <div class="card-body">
                         <h4 class="mb-2">Programs</h4>
-                        <table class="table table-centered table-nowrap text-center text-white" v-if="programs.length">
+                        <table class="table table-centered table-nowrap text-center" v-if="programs.length">
                             <thead>
                             <tr >
                                 <td></td>
@@ -46,14 +46,14 @@
                     <div class="card-body">
                         <h4 class="mb-4">Reports</h4>
                         <div class="row mx-1 my-4 p-3 prio " v-if="reports.length">
-                            <div  v-for="data of reports" :key="data.id">
-                                <div class="col-xl-12">
+                            <div  v-for="data of reports" :key="data.id" class="col-xl-12">
+
                                     <p class="text-muted float-right" style="font-size: 11px">{{data.time_diff}}</p>
                                     <h6 class="aspect-name ">{{data.title}}</h6>
                                     <h6 class="text-muted " v-if="data.vuln_id">{{data.vuln.name}}</h6>
                                     <h6 class="text-muted " v-else>{{data.vuln_name}}</h6>
                                     <b-badge  class="p-1 float-right" variant="info">{{data.status}}</b-badge>
-                                </div>
+
                             </div>
                         </div>
                         <p class="my-2 text-muted text-center m-auto" v-else-if="loadReports"> No Data Found</p>
