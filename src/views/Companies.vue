@@ -4,7 +4,7 @@
             <div class="col-xl-12 m-auto">
                 <div class="row mb-4">
                     <h2 class="col-10">Companies</h2>
-                    <button class="col-2  btn btn-primary ml-auto"  v-b-modal.add-company>Add</button>
+                    <button class="col-2  btn btn-primary ml-auto"  v-b-modal.add-company v-if="is_sudo">Add</button>
                 </div>
 
                 <div  style="border-radius:12px;border: solid 3px #32394e">
@@ -16,7 +16,8 @@
                             <th scope="col">Website</th>
                             <th scope="col">Balance</th>
                             <th scope="col">Managers</th>
-                            <th scope="col"  style="min-width: 100px"></th>
+                            <th scope="col">Programs</th>
+                            <th scope="col"  style="min-width: 100px" v-if="is_sudo"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -30,7 +31,8 @@
                             <td data-label="Balance "> {{data.website}}</td>
                             <td data-label="Balance "> {{data.balance}}</td>
                             <td data-label="Managers">{{data.managers_count}}</td>
-                            <td data-label="Actions">
+                            <td data-label="Programs">{{data.programs_count}}</td>
+                            <td data-label="Actions" v-if="is_sudo">
                                 <ul class="list-inline m-auto">
                                     <li class="list-inline-item m-0 " @click="showEdit(data)"><vue-fontawesome icon="cog" size="1" color="deepskyblue"></vue-fontawesome></li>
                                     <li class="list-inline-item m-0 " @click="showCode(data.id)"><vue-fontawesome icon="lock" size="1" color="black" title="code"></vue-fontawesome></li>
@@ -79,7 +81,7 @@
                 companies:[],
                 last_page_url:10,
 
-
+                is_sudo:false
             }
         },
 
@@ -119,7 +121,10 @@
                     .get('companies?page='+page)
                     .then(response => {
                         console.log(response.data)
-                        this.companies = response.data.data;
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role) {
+                            this.companies = response.data.data;
+                        }
                         this.last_page_url = response.data.last_page;
                         this.current_page = response.data.current_page
 

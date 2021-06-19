@@ -67,12 +67,12 @@
                         </div>
 
                         <div class="card-body">
-                            <div class="row mx-0 mb-2">
+                            <div class="row mx-0 mb-2" v-if="is_sudo || $store.state.admin.id == selected_report.assigned_to_admin">
                                 <b-badge style="font-size: 13px" class="p-3 mr-3"  role="button" v-b-toggle.report variant="dark">Edit Report</b-badge>
                                 <edit-report :selected_report="selected_report"/>
                                 <b-badge style="font-size: 13px" class="p-3" role="button" v-b-toggle.messages variant="dark">View Messages</b-badge>
                                 <report-messages/>
-                                <b-form-select class="float-right ml-auto" style="width: 160px" v-model="selected_report.status" :options="status"></b-form-select>
+                                <b-form-select class="float-right ml-auto" style="width: 160px" v-model="selected_report.status" :options="status" :disabled="!is_sudo && $store.state.admin.id != selected_report.assigned_to_admin"></b-form-select>
                             </div>
 
                             <div role="tablist">
@@ -166,7 +166,7 @@
             return {
                 reports: [],
                 content: "<h1>Some initial content</h1>",
-                status: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable'],
+                status: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable','pre-submission','pending'],
                 current_page: 1,
                 last_page_url: 6,
                 selected_report: {
@@ -177,7 +177,8 @@
                 filtre_status:'',
                 filtre_type:false,
                 is_load:false,
-                categories:vuln_Category
+                categories:vuln_Category,
+                is_sudo:false
             }
         },
         created() {
@@ -197,9 +198,12 @@
                 this.$http
                     .post('programs/'+this.$route.params.id+'/reports?page=' + page,item)
                     .then(response => {
-                        this.reports = response.data.data;
-                        this.is_load = true
-                        if(this.reports.length) this.selected_report = this.reports[0];
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role) {
+                            this.reports = response.data.data;
+                            this.is_load = true
+                            if (this.reports.length) this.selected_report = this.reports[0];
+                        }
                         this.last_page_url = response.data.last_page;
                         this.current_page = response.data.current_page
 
@@ -229,5 +233,8 @@
     .selected{
         background-color: #222831;
         color: white;
+    }
+    .custom-select:disabled {
+        color: #000!important;
     }
 </style>

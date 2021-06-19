@@ -27,8 +27,8 @@
 
                                         <div class="chat-body col-10 ">
                                             <div class="header p-2">
-                                                <strong class="primary-font" v-if="data.type == 'am'">Company Manager</strong>
-                                                <strong class="primary-font" v-if="data.type == 'au'">DBounty User</strong>
+                                                <strong class="primary-font" v-if="data.type == 'ma'">Company Manager</strong>
+                                                <strong class="primary-font" v-if="data.type == 'ua'">Report User</strong>
                                                 <small class="float-right text-muted">{{data.time_diff}}</small>
                                             </div>
                                             <p class="p-2">
@@ -39,8 +39,7 @@
                                     <li class="right mb-4" v-else>
                                         <div class="chat-body w-100">
                                             <div class="header p-2">
-                                                <strong class="primary-font" v-if="data.type == 'am'">Company Manager</strong>
-                                                <strong class="primary-font" v-if="data.type == 'au'">DBounty User</strong>
+                                                <strong class="primary-font">me</strong>
                                                 <small class="float-right text-muted">{{data.time_diff}}</small>
                                             </div>
                                             <p class="p-2">

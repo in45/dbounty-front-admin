@@ -8,7 +8,7 @@
             <li tabindex="0" class="icon-customers" @click="$router.push({name:'Companies'})" ><span>Companies</span></li>
             <li tabindex="0" class="icon-customers" @click="$router.push({name:'Programs'})"><span>Programs</span></li>
             <li tabindex="0" class="icon-customers" @click="$router.push({name:'Reports'})"><span>Reports</span></li>
-            <li tabindex="0" class="icon-customers" @click="$router.push({name:'Messages'})"><span>Messages</span></li>
+            <li tabindex="0" class="icon-customers" @click="$router.push({name:'Messages'})" v-if="$store.state.admin.role == 'sysmanage' || $store.state.admin.role == 'sudo'"><span>Messages</span></li>
             <li tabindex="0" class="icon-users" @click="$router.push({name:'Badges'})"><span>Badges</span></li>
             <li tabindex="0" class="icon-users" @click="$router.push({name:'Vulnerabilities'})"><span>Vulnerabilities</span></li>
 
@@ -20,7 +20,22 @@
 
 <script>
     export default {
-        name: "sidebar"
+        name: "sidebar",
+        created(){
+            this.me()
+        },
+        methods:{
+            me() {
+                this.$http
+                    .get('me')
+                    .then(response => {
+                        this.$store.commit('me', response.data)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        }
     }
 </script>
 

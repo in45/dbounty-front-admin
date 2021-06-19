@@ -72,15 +72,15 @@
 
                         <div class="card-body">
 
-                            <div class="row mx-0 mb-2">
+                            <div class="row mx-0 mb-2" v-if="is_sudo || $store.state.admin.id == selected_report.assigned_to_admin">
                                 <b-badge style="font-size: 13px" class="p-3 mr-3" role="button" v-b-toggle.report
                                          variant="dark">Edit Report
                                 </b-badge>
-                                <edit-report :selected_report="selected_report"/>
+                                <edit-report :selected_report="selected_report" />
                                 <b-badge style="font-size: 13px" class="p-3" role="button" v-b-toggle.messages
                                          variant="dark">View Messages
                                 </b-badge>
-                                <report-messages/>
+                                <report-messages :id="selected_report.id"/>
                                 <b-form-select class="float-right ml-auto" style="width: 160px"
                                                v-model="selected_report.status" :options="status"></b-form-select>
                             </div>
@@ -97,7 +97,7 @@
                                         <b-card-body>
                                             <b-card-text>
                                                 <b-form-select class="float-right" style="width: 100px"
-                                                               v-model="selected_report.severity"
+                                                               v-model="selected_report.severity" :disabled="!is_sudo && $store.state.admin.id != selected_report.assigned_to_admin"
                                                                :options="['none','low','medium','high','critical']"></b-form-select>
 
                                                 <ul>
@@ -179,7 +179,7 @@
                 filtre_status: '',
                 filtre_type: false,
                 is_load: false,
-                status: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable'],
+                status: ['new', 'needs more info', 'triaged', 'accepted', 'resolved', 'duplicate', 'informative', 'not applicable','pre-submission','pending'],
                 current_page: 1,
                 last_page_url: 6,
                 selected_report: {
@@ -187,11 +187,14 @@
                     program: {},
                     vuln: {}
                 },
+                is_sudo:false
 
             }
         },
         created() {
-            this.getReports(1)
+
+                this.getReports(1)
+
         },
         watch: {
             filtre_status: function () {
@@ -207,9 +210,12 @@
                 this.$http
                     .post('reports?page=' + page, item)
                     .then(response => {
-                        this.reports = response.data.data;
-                        this.is_load = true
-                        if(this.reports.length) this.selected_report = this.reports[0];
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role) {
+                            this.reports = response.data.data;
+                            this.is_load = true
+                            if (this.reports.length) this.selected_report = this.reports[0];
+                        }
                         this.last_page_url = response.data.last_page;
                         this.current_page = response.data.current_page
 
@@ -238,5 +244,8 @@
     .selected {
         background-color: #222831;
         color: white;
+    }
+    .custom-select:disabled {
+        color: #000!important;
     }
 </style>

@@ -4,7 +4,7 @@
             <div class="col-xl-11">
                 <div class="row mb-4">
                     <h2 class="col-10">Admins</h2>
-                    <button class="col-2  btn btn-primary ml-auto"  v-b-modal.new-admin>Add</button>
+                    <button class="col-2  btn btn-primary ml-auto"  v-b-modal.new-admin v-if="is_sudo">Add</button>
                 </div>
 
                 <div  style="border-radius:12px;border: solid 3px #32394e">
@@ -15,7 +15,7 @@
                             <th scope="col">Username</th>
                             <th scope="col">Email</th>
                             <th scope="col" >Role</th>
-                            <th scope="col"  style="min-width: 90px"></th>
+                            <th scope="col"  style="min-width: 90px" v-if="is_sudo"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -28,9 +28,9 @@
                             </td>
                             <td data-label="Email "> {{data.email}}</td>
                             <td data-label="Role " >
-                                <b-form-select @change="changeRole(index)" v-model="data.role" :options="['sudo', 'sysmanage', 'sysmoni']" ></b-form-select>
+                                <b-form-select @change="changeRole(index)" v-model="data.role" :options="['sudo', 'sysmanage', 'sysmoni']" :disabled="!is_sudo"></b-form-select>
                             </td>
-                            <td data-label="Actions">
+                            <td data-label="Actions" v-if="is_sudo">
                                 <ul class="list-inline m-auto">
                                     <li class="list-inline-item m-0 " @click="showEdit(data)"><vue-fontawesome icon="cog" size="1" color="deepskyblue"></vue-fontawesome></li>
                                     <li class="list-inline-item m-0 " @click="deleteItem(data.id)"><vue-fontawesome icon="trash" size="1" color="red"></vue-fontawesome></li>
@@ -65,9 +65,7 @@
     export default {
         name: "Admins",
         components: {EditVuln, NewVuln, DeleteConfirmation, Paginate},
-        created () {
-            this.loadAdmins(1);
-        },
+
         data(){
             return{
                 current_page: 1,
@@ -75,9 +73,13 @@
                 admin:{},
                 admins:[],
                 last_page_url:10,
+                is_sudo:false,
 
 
             }
+        },
+        created(){
+            this.loadAdmins(1);
         },
 
         methods:{
@@ -123,7 +125,10 @@
                     .get('admins?page='+page)
                     .then(response => {
                         console.log(response.data)
-                        this.admins = response.data.data;
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role){
+                            this.admins = response.data.data;
+                        }
                         this.last_page_url = response.data.last_page;
                         this.current_page = response.data.current_page
 

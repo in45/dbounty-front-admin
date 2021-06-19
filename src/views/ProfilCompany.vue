@@ -8,7 +8,7 @@
                         <div class="card-body">
                             <div class="row mb-2">
                                 <h4 class="col-9">Infos</h4>
-                                <div class="col-3 text-right">
+                                <div class="col-3 text-right" v-if="is_sudo">
                                     <vue-fontawesome v-b-modal.edit-company icon="cog" class="mr-2" size="1" color="deepskyblue"></vue-fontawesome>
                                     <vue-fontawesome v-b-modal.company-code icon="lock" size="1" color="black" title="code"></vue-fontawesome>
                                 </div>
@@ -39,7 +39,7 @@
                                     </td>
                                     <td data-label="Username ">{{data.manager.username}}</td>
                                     <td data-label="Role " >
-                                        <b-form-select @change="changeRole(data.manager_address)" v-model="data.manager.role" :options="['sysalpha', 'sysbeta']" ></b-form-select>
+                                        <b-form-select @change="changeRole(data.manager_address)" v-model="data.manager.role" :options="['sysalpha', 'sysbeta']" :disabled="!is_sudo" ></b-form-select>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -51,6 +51,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mb-4">Programs</h4>
+                            <div   v-if="programs.length">
                                 <div class="row mx-1 mb-2 p-1 prio " v-for="data of programs" :key="data.id">
                                         <div class="col-xl-6">
                                             <b-avatar class="mr-2"></b-avatar>
@@ -60,13 +61,13 @@
                                         <div class="col-xl-6 m-auto">
                                             <ul class="row  list-inline my-0 p-0">
 
-                                                <li class="col-3 p-0 ">
+                                                <li class="col-4 p-0 ">
                                                     <i class="flaticon-cyber-security-2 text-primary mr-2" title="type"></i>{{data.type}}
                                                 </li>
-                                                <li class="col-3 p-0 ">
+                                                <li class="col-4 p-0 ">
                                                     <i class="flaticon-skull  text-primary mr-2" title="reports"></i>{{data.reports_count}}
                                                 </li>
-                                                <li class="col-3 p-0 ">
+                                                <li class="col-4 p-0 ">
                                                     <i class="flaticon-hacker-2 text-primary mr-2" title="hunters"></i>{{data.users_count}}
                                                 </li>
 
@@ -74,7 +75,8 @@
                                             </ul>
                                         </div>
                                 </div>
-
+                            </div>
+                                <p class="my-2 text-muted text-center m-auto" v-else-if="loadPrograms"> No Data Found</p>
                         </div>
 
                     </div>
@@ -95,13 +97,17 @@
             return{
                 company:{},
                 managers:[],
-                programs:[]
+                programs:[],
+                is_sudo:false,
+                loadPrograms:false,
             }
         },
         created(){
-            this.loadCompany()
-            this.getPrograms()
-            this.getManagers()
+
+                this.loadCompany()
+                this.getPrograms()
+                this.getManagers()
+
 
         },
         methods:{
@@ -116,7 +122,11 @@
                     .get('companies/'+this.$route.params.id)
                     .then(response => {
                         console.log(response.data)
-                        this.company = response.data;
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role) {
+                            this.company = response.data;
+                        }
+
 
                     })
                     .catch(error => {
@@ -128,7 +138,10 @@
                     .get('companies/'+this.$route.params.id+'/managers')
                     .then(response => {
                         console.log(response.data)
-                        this.managers = response.data;
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role) {
+                            this.managers = response.data;
+                        }
 
                     })
                     .catch(error => {
@@ -141,6 +154,7 @@
                     .then(response => {
                         console.log(response.data)
                         this.programs = response.data;
+                        this.loadPrograms=true
 
 
                     })
@@ -157,5 +171,8 @@
         box-shadow: 0 8px 10px 0 rgba(0, 0, 0, .2);
         border-radius: 4px;
         border: 1px solid #242a32;
+    }
+    .custom-select:disabled {
+        color: #000!important;
     }
 </style>

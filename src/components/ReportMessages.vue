@@ -3,9 +3,9 @@
                text-variant="light" right shadow backdrop backdrop-variant="transparent">
         <div class="px-3 py-2">
             <b-tabs pills justified content-class="pt-3">
-                <b-tab  class="border-0">
+                <b-tab  class="border-0" :active="type == 'manager'"  @click="type = 'manager'">
                     <template v-slot:title >
-                        <span class=" d-sm-inline-block " @click="type = 'manager'">Manager</span>
+                        <span class=" d-sm-inline-block ">Manager</span>
                     </template>
                     <div style="max-height: 70vh;overflow-y:scroll;padding-right: 4px;padding-left: 4px;">
                         <div class="chat-message mt-2">
@@ -29,7 +29,7 @@
                                 <li class="right mb-4" v-else>
                                     <div class="chat-body w-100">
                                         <div class="header p-2">
-                                            <strong class="primary-font">Company Manager</strong>
+                                            <strong class="primary-font">me</strong>
                                             <small class="float-right text-muted">{{data.time_diff}}</small>
                                         </div>
                                         <p class="p-2">
@@ -42,9 +42,9 @@
                         </div>
                     </div>
                 </b-tab>
-                <b-tab  class="border-0">
+                <b-tab  class="border-0" :active="type == 'user'" @click="type = 'user'">
                     <template v-slot:title >
-                        <span class=" d-sm-inline-block " @click="type = 'user'">User</span>
+                        <span class=" d-sm-inline-block " >User</span>
                     </template>
                     <div style="max-height: 70vh;padding-right: 12px;padding-left: 12px;">
                         <div class="chat-message mt-2">
@@ -56,7 +56,7 @@
 
                                     <div class="chat-body col-9 ">
                                         <div class="header p-2">
-                                            <strong class="primary-font" >DBounty User</strong>
+                                            <strong class="primary-font" >Report User</strong>
                                             <small class="float-right text-muted">{{data.time_diff}}</small>
                                         </div>
                                         <p class="p-2">
@@ -67,7 +67,7 @@
                                 <li class="right mb-4" v-else>
                                     <div class="chat-body w-100">
                                         <div class="header p-2">
-                                            <strong class="primary-font" >DBounty User</strong>
+                                            <strong class="primary-font" >me</strong>
                                             <small class="float-right text-muted">{{data.time_diff}}</small>
                                         </div>
                                         <p class="p-2">
@@ -112,7 +112,7 @@
             return {
                 main_socket: io.connect(this.$url_websocket_main, {query: {token: localStorage.getItem('token')}}),
                 messages: [ ],
-                type:'manager'
+                type:'user'
 
             }
         },
@@ -141,15 +141,17 @@
         },
         methods: {
             getMessages() {
-                this.$http
-                    .get('reports/'+this.id+'/messages')
-                    .then(response => {
-                        this.messages = response.data;
+               if(this.id) {
+                   this.$http
+                       .get('reports/' + this.id + '/messages')
+                       .then(response => {
+                           this.messages = response.data;
 
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                       })
+                       .catch(error => {
+                           console.log(error)
+                       })
+               }
             },
             myMessage(){
                 let report_message = {

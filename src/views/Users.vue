@@ -31,7 +31,7 @@
                             <td data-label="Reports" > {{data.count_reports}}</td>
                             <td data-label="Thanks" > {{data.thanks}}</td>
                             <td data-label="State">
-                                <button class="btn-outline" v-on:click="banneUser($event,index)"  v-bind:class="{ banned: data.state=='0' }">{{ (data.state == '0') ? 'Unban': 'Ban' }}</button>
+                                <button class="btn-outline" v-on:click="banneUser($event,index)"  v-bind:class="{ banned: data.state=='0' }" :disabled="!is_sudo">{{ (data.state == '0') ? 'Unban': 'Ban' }}</button>
                             </td>
 
                         </tr>
@@ -64,7 +64,7 @@
                 current_page: 1,
                 users:[],
                 last_page_url:10,
-
+                is_sudo:false
 
             }
         },
@@ -80,7 +80,10 @@
                     .get('users?page='+page)
                     .then(response => {
                         console.log(response.data)
-                        this.users = response.data.data;
+                        if(this.$store.state.admin.role === 'sudo') this.is_sudo = true
+                        if(this.$store.state.admin.role) {
+                            this.users = response.data.data;
+                        }
                         this.last_page_url = response.data.last_page;
                         this.current_page = response.data.current_page
 
