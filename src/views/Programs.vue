@@ -62,7 +62,7 @@
                                             </h6>
                                             <h6 class="mb-2"><span class="text-info">Finish At :</span>
                                                 {{data.finish_at}}</h6>
-                                            <p>{{JSON.parse(data.description).info}}</p>
+                                            <div v-html="JSON.parse(data.description).info">{{JSON.parse(data.description).info}}</div>
                                             <b-badge class="float-right p-2" role="button"
                                                      @click="$router.push({name:'ProgramReports',params:{id:data.id}})"
                                                      pill v-if="data.reports_count" variant="info">reports

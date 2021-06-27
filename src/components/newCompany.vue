@@ -30,10 +30,15 @@
                             <label class="mb-2">Description :</label>
                             <b-form-textarea  rows="4"  v-model="company.description" placeholder="Enter Description"></b-form-textarea>
                         </div>
-
-                        <div class="form-group mt-3 mb-0">
+                        <div class="row m-0">
+                            <div class="form-group col-xl-6 pl-0 mt-3 mb-0">
+                                <label class="mb-2">Balance :</label>
+                                <b-form-input  type="text" v-model="company.balance" placeholder="Enter Company Balance"></b-form-input>
+                            </div>
+                            <div class="form-group col-xl-6  pr-0 mt-3 mb-0">
                             <label class="mb-2">Logo :</label>
                             <b-form-file   accept="image/*" ref="logo"  name="logo"></b-form-file>
+                             </div>
                         </div>
                         <div class="row pt-3 m-auto">
                             <div class="col-xl-3 m-auto">
@@ -78,6 +83,8 @@
                 formData.append('name', this.company.name);
                 formData.append('website', this.company.website);
                 formData.append('email', this.company.email);
+                formData.append('phone', this.company.phone);
+                formData.append('balance', this.company.balance);
                 formData.append('description', this.company.description);
                 if(this.$refs.logo.files.length) formData.append('logo', this.$refs.logo.files[0]);
                  this.$http

@@ -45,8 +45,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="mb-4">Reports</h4>
-                        <div class="row mx-1 my-4 p-3 prio " v-if="reports.length">
-                            <div  v-for="data of reports" :key="data.id" class="col-xl-12">
+                        <div class="row mx-1 " v-if="reports.length">
+                            <div  v-for="data of reports" :key="data.id" class="col-xl-12 prio my-2 p-3  ">
 
                                     <p class="text-muted float-right" style="font-size: 11px">{{data.time_diff}}</p>
                                     <h6 class="aspect-name ">{{data.title}}</h6>

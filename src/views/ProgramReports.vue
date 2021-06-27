@@ -70,9 +70,13 @@
                             <div class="row mx-0 mb-2" v-if="is_sudo || $store.state.admin.id == selected_report.assigned_to_admin">
                                 <b-badge style="font-size: 13px" class="p-3 mr-3"  role="button" v-b-toggle.report variant="dark">Edit Report</b-badge>
                                 <edit-report :selected_report="selected_report"/>
-                                <b-badge style="font-size: 13px" class="p-3" role="button" v-b-toggle.messages variant="dark">View Messages</b-badge>
+                                <b-badge style="font-size: 13px" class="p-3 mr-3" role="button" v-b-toggle.messages variant="dark">View Messages</b-badge>
                                 <report-messages/>
-                                <b-form-select class="float-right ml-auto" style="width: 160px" v-model="selected_report.status" :options="status" :disabled="!is_sudo && $store.state.admin.id != selected_report.assigned_to_admin"></b-form-select>
+                                <b-form-select class=" mb-2" style="width: 200px" v-model="selected_report.assigned_to_admin" v-on:change="assign" v-if="$store.state.admin.role == 'sudo'">
+                                    <b-form-select-option v-for="m in admins" :key="m.id" :value="m.id">{{m.username}}</b-form-select-option>
+                                </b-form-select>
+                                <b-form-select class="float-right ml-auto" style="width: 160px"
+                                               v-model="selected_report.status" :options="status"  v-on:change="update('status')"></b-form-select>
                             </div>
 
                             <div role="tablist">
@@ -86,7 +90,7 @@
                                     <b-collapse id="info" accordion="my-accordion" visible role="tabpanel">
                                         <b-card-body>
                                             <b-card-text>
-                                                <b-form-select class="float-right" style="width: 100px" v-model="selected_report.severity" :options="['none','low','medium','high','critical']"></b-form-select>
+                                                <b-form-select class="float-right" style="width: 100px" v-model="selected_report.severity" :options="['none','low','medium','high','critical']" v-on:change="update('severity')"></b-form-select>
 
                                                 <ul>
                                                     <li>Target : {{selected_report.target}}</li>
@@ -178,11 +182,13 @@
                 filtre_type:false,
                 is_load:false,
                 categories:vuln_Category,
-                is_sudo:false
+                is_sudo:false,
+                admins:[]
             }
         },
         created() {
             this.getReports(1)
+            this.getAdmins()
         },
         watch: {
             filtre_status: function () {
@@ -211,7 +217,49 @@
                     .catch(error => {
                         console.log(error)
                     })
-            }
+            },
+            getAdmins(){
+                this.$http
+                    .get('admins/sudo')
+                    .then(response => {
+                        this.admins = response.data;
+
+
+                    })
+                    .catch(error => {
+                            console.log(error)
+                        }
+                    )
+            },
+            assign(){
+                this.$http
+                    .post('reports/'+this.selected_report.id+'/assign',{'admin_id':this.selected_report.assigned_to_admin})
+                    .then(response => {
+                        console.log(response.data)
+                        this.$alertify.success(" success")
+                        this.selected_report = response.data;
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            },
+            update(type){
+                let val = {}
+                if(type == 'severity') val.severity=this.selected_report.severity
+                if(type == 'status') val.status=this.selected_report.status
+                this.$http
+                    .post('reports/'+this.selected_report.id,val)
+                    .then(response => {
+                        console.log(response.data)
+                        this.$alertify.success(" success")
+                        this.selected_report = response.data;
+
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            },
         }
     }
 </script>
