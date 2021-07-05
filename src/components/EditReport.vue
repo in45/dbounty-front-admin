@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group row my-1 mx-0">
                     <label class="pb-2 col-xl-4 m-auto"> Vulnerability Category </label>
-                    <b-form-input list="browsers" class="col-xl-8" name="browser" v-model="selected_report.vuln.category" id="browser"></b-form-input>
+                    <b-form-input list="browsers" class="col-xl-8" name="browser"  id="browser"></b-form-input>
                     <datalist class="col-xl-8" id="browsers">
                         <option v-for="c in categories" :key="c.id" :value="c.title">{{c.title}}</option>
                     </datalist>
